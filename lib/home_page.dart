@@ -1,4 +1,4 @@
-/*import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart'; helo
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -5214,7 +5214,7 @@ class HomePage extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 428,
+          width: 300,
           height: 926,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(color: Color(0xFFE8F1FF)),
