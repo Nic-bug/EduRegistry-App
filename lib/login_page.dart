@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; //Test changes
 import 'package:eduregistryselab/home_page.dart'; // Corrected import
 
 class LoginPage extends StatefulWidget {
@@ -26,7 +26,8 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     Future.delayed(const Duration(seconds: 1), () {
-      if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
+      if (enteredMatric == correctMatric &&
+          enteredPassword == correctPassword) {
         // Navigate to HomePage
         Navigator.pushReplacement(
           context,
