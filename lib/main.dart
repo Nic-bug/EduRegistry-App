@@ -7,6 +7,7 @@ import 'package:eduregistryselab/notifications.dart';
 import 'package:eduregistryselab/forgotpassword.dart';
 import 'package:eduregistryselab/chat.dart';
 import 'package:eduregistryselab/profile.dart';
+import 'package:eduregistryselab/appointment.dart'; // Import AppointmentPage
 
 void main() {
   runApp(const MyApp());
@@ -26,12 +27,15 @@ class MyApp extends StatelessWidget {
             const SplashScreen(), // SplashScreen is the initial screen
         '/login': (context) => const LoginPage(), // Route to LoginPage
         '/forgotPassword': (context) =>
-            ForgotPasswordPage(), // Route to LoginPage
+            ForgotPasswordPage(), // Route to ForgotPasswordPage
         '/home_page': (context) => const HomePage(), // Route to HomePage
         '/grade_page': (context) => const GradePage(), // Route to GradePage
-        '/notifications': (context) => const NotificationsPage(),
-        '/chat': (context) => const ChatPage(),
-        '/profile': (context) => const ProfilePage(),
+        '/notifications': (context) =>
+            const NotificationsPage(), // Route to NotificationsPage
+        '/chat': (context) => const ChatPage(), // Route to ChatPage
+        '/profile': (context) => const ProfilePage(), // Route to ProfilePage
+        '/appointment': (context) =>
+            const AppointmentPage(), // Route to AppointmentPage
       },
     );
   }
