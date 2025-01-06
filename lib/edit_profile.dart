@@ -1,38 +1,49 @@
 import 'package:flutter/material.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key});
+  final String name;
+  final String className;
+  final String matricNo;
+  final String icNo;
+
+  const EditProfilePage({
+    super.key,
+    required this.name,
+    required this.className,
+    required this.matricNo,
+    required this.icNo,
+  });
 
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController classController = TextEditingController();
-  final TextEditingController matricNoController = TextEditingController();
-  final TextEditingController icNoController = TextEditingController();
+  late TextEditingController nameController;
+  late TextEditingController classController;
+  late TextEditingController matricNoController;
+  late TextEditingController icNoController;
 
   @override
   void initState() {
     super.initState();
-    // Prepopulate the fields with dummy data (you can fetch actual data from your backend or database)
-    nameController.text = "Muhammad Afiq";
-    classController.text = "6 Amanah";
-    matricNoController.text = "xxxxxx";
-    icNoController.text = "xxxxxxxxxxxx";
+    nameController = TextEditingController(text: widget.name);
+    classController = TextEditingController(text: widget.className);
+    matricNoController = TextEditingController(text: widget.matricNo);
+    icNoController = TextEditingController(text: widget.icNo);
   }
 
   void _saveProfile() {
-    // Perform save operation here
-    // For now, just print the values
-    print("Name: ${nameController.text}");
-    print("Class: ${classController.text}");
-    print("Matric No: ${matricNoController.text}");
-    print("IC No: ${icNoController.text}");
+    // Get updated profile data
+    final updatedData = {
+      'name': nameController.text,
+      'className': classController.text,
+      'matricNo': matricNoController.text,
+      'icNo': icNoController.text,
+    };
 
-    // Navigate back to the profile page
-    Navigator.pop(context);
+    // Return the updated data to ProfilePage
+    Navigator.pop(context, updatedData);
   }
 
   @override
@@ -63,56 +74,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Stack(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.blue,
-                    child: CircleAvatar(
-                      radius: 48,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 60,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.camera_alt,
-                        size: 16,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              _buildTextField(
-                controller: nameController,
-                label: "Name",
-              ),
+              _buildTextField(controller: nameController, label: "Name"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: classController, label: "Class"),
               const SizedBox(height: 10),
               _buildTextField(
-                controller: classController,
-                label: "Class",
-              ),
+                  controller: matricNoController, label: "Matric No"),
               const SizedBox(height: 10),
-              _buildTextField(
-                controller: matricNoController,
-                label: "Matric No",
-              ),
-              const SizedBox(height: 10),
-              _buildTextField(
-                controller: icNoController,
-                label: "IC No",
-              ),
+              _buildTextField(controller: icNoController, label: "IC No"),
               const Spacer(),
               ElevatedButton(
                 onPressed: _saveProfile,
@@ -137,10 +106,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-  }) {
+  Widget _buildTextField(
+      {required TextEditingController controller, required String label}) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(

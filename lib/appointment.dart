@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'upcoming_page.dart';
 import 'request_page.dart'; // Import the RequestPage
+import 'approval_page.dart';
+import 'history_page.dart';
 
 class AppointmentPage extends StatelessWidget {
   const AppointmentPage({super.key});
@@ -45,49 +48,65 @@ class AppointmentPage extends StatelessWidget {
                 child: const Text('REQUEST NEW APPOINTMENT'),
               ),
               const SizedBox(height: 20),
-              _buildSection('Upcoming', [
-                _buildAppointmentCard(
-                  name: 'Muhammad Afiq Bin Amran',
-                  dateTime: '11/4/2024 8.00 AM',
-                  teacherName: 'Kamarul Bin Ishak',
-                  buttons: [
-                    _buildActionButton('CHANGE', Colors.blue, Colors.white),
-                    _buildActionButton('CANCEL', Colors.red, Colors.white),
+              _buildSection(
+                  context,
+                  'Upcoming',
+                  [
+                    _buildAppointmentCard(
+                      name: 'Muhammad Afiq Bin Amran',
+                      dateTime: '11/4/2024 8.00 AM',
+                      teacherName: 'Kamarul Bin Ishak',
+                      buttons: [
+                        _buildActionButton('CHANGE', Colors.blue, Colors.white),
+                        _buildActionButton('CANCEL', Colors.red, Colors.white),
+                      ],
+                    ),
                   ],
-                ),
-              ]),
+                  const UpcomingPage()),
               const SizedBox(height: 20),
-              _buildSection('Request', [
-                _buildAppointmentCard(
-                  name: 'Muhammad Afiq Bin Amran',
-                  dateTime: '11/4/2024 8.00 AM',
-                  teacherName: 'Kamarul Bin Ishak',
-                  buttons: [
-                    _buildActionButton('CHANGE', Colors.blue, Colors.white),
-                    _buildActionButton('CANCEL', Colors.red, Colors.white),
+              _buildSection(
+                  context,
+                  'Request',
+                  [
+                    _buildAppointmentCard(
+                      name: 'Muhammad Afiq Bin Amran',
+                      dateTime: '11/4/2024 8.00 AM',
+                      teacherName: 'Kamarul Bin Ishak',
+                      buttons: [
+                        _buildActionButton('CHANGE', Colors.blue, Colors.white),
+                        _buildActionButton('CANCEL', Colors.red, Colors.white),
+                      ],
+                    ),
                   ],
-                ),
-              ]),
+                  const RequestPage()),
               const SizedBox(height: 20),
-              _buildSection('Approval', [
-                _buildAppointmentCard(
-                  name: 'Muhammad Afiq Bin Amran',
-                  dateTime: '11/4/2024',
-                  teacherName: 'Kamarul Bin Ishak',
-                  buttons: [
-                    _buildActionButton('ACCEPT', Colors.blue, Colors.white),
-                    _buildActionButton('DENY', Colors.red, Colors.white),
+              _buildSection(
+                  context,
+                  'Approval',
+                  [
+                    _buildAppointmentCard(
+                      name: 'Muhammad Afiq Bin Amran',
+                      dateTime: '11/4/2024',
+                      teacherName: 'Kamarul Bin Ishak',
+                      buttons: [
+                        _buildActionButton('ACCEPT', Colors.blue, Colors.white),
+                        _buildActionButton('DENY', Colors.red, Colors.white),
+                      ],
+                    ),
                   ],
-                ),
-              ]),
+                  const ApprovalPage()),
               const SizedBox(height: 20),
-              _buildSection('History', [
-                _buildAppointmentCard(
-                  name: 'Muhammad Afiq Bin Amran',
-                  dateTime: '11/12/2024',
-                  teacherName: 'Siti Amirah Binti Razak',
-                ),
-              ]),
+              _buildSection(
+                  context,
+                  'History',
+                  [
+                    _buildAppointmentCard(
+                      name: 'Muhammad Afiq Bin Amran',
+                      dateTime: '11/12/2024',
+                      teacherName: 'Siti Amirah Binti Razak',
+                    ),
+                  ],
+                  const HistoryPage()),
             ],
           ),
         ),
@@ -95,7 +114,8 @@ class AppointmentPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSection(String title, List<Widget> children) {
+  Widget _buildSection(BuildContext context, String title,
+      List<Widget> children, Widget navigateToPage) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -110,7 +130,12 @@ class AppointmentPage extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => navigateToPage),
+                );
+              },
               child: const Text(
                 'View All',
                 style: TextStyle(color: Colors.blue),
