@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'confirmation_appointment.dart'; // Import the confirmation appointment page
 
 class RequestPage extends StatefulWidget {
   const RequestPage({super.key});
@@ -44,17 +45,35 @@ class _RequestPageState extends State<RequestPage> {
               _buildStepHeader('Set Time'),
               _buildTimePicker(),
               const SizedBox(height: 20),
-              _buildStepHeader('Confirm Appointment'),
-              _buildConfirmationCard(),
+              // Remove the confirmation card
+              // _buildStepHeader('Confirm Appointment'),
+              // _buildConfirmationCard(),
               const SizedBox(height: 20),
+              // Updated button to navigate to ConfirmationAppointment
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle submission logic
+                    // Check if all necessary fields are filled
                     if (selectedStudent != null &&
                         selectedDate != null &&
                         selectedTime != null) {
-                      // Proceed with the request
+                      // Navigate to the confirmation page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ConfirmationAppointment(
+                            selectedStudent: selectedStudent,
+                            selectedDate: selectedDate,
+                            selectedTime: selectedTime,
+                          ),
+                        ),
+                      );
+                    } else {
+                      // If not all fields are filled, show a message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Please complete all fields.')),
+                      );
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -141,28 +160,6 @@ class _RequestPageState extends State<RequestPage> {
             ),
           )
           .toList(),
-    );
-  }
-
-  Widget _buildConfirmationCard() {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Name: $selectedStudent'),
-            SizedBox(height: 8),
-            Text(
-                'Date & Time: ${selectedDate?.toLocal().toString().split(' ')[0]} $selectedTime'),
-            SizedBox(height: 8),
-            const Text('Teacher Name: Siti Amirah Binti Razak'),
-          ],
-        ),
-      ),
     );
   }
 }
