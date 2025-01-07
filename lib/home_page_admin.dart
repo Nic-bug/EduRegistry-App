@@ -11,8 +11,9 @@ class HomePageAdmin extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
+        automaticallyImplyLeading: false, // Hides the back button
         title: const Text(
-          'Hi, Admin',
+          'Hi, Teacher',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -32,13 +33,13 @@ class HomePageAdmin extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "What would you like to manage today?\nSearch below.",
+                  "What would you like to manage today? Search below.",
                   style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
                 const SizedBox(height: 20),
                 // Dashboard Card (Replaces Nilam Week)
                 Container(
-                  width: 350,  // Set the desired width here
+                  width: 350, // Set the desired width here
                   child: Card(
                     color: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -64,7 +65,7 @@ class HomePageAdmin extends StatelessWidget {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              'Manage Staff Activities\nAccess Staff Data & More!',
+                              'Track Student Progress Today!',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -83,8 +84,8 @@ class HomePageAdmin extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Navigate to the Merit System Page
-                        Navigator.pushNamed(context, '/staff_merit');
+                        // Navigate to the Add Student Page
+                        Navigator.pushNamed(context, '/admin_merit');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -94,7 +95,7 @@ class HomePageAdmin extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        "MERIT SYSTEM",
+                        "ADD STUDENT",
                         style: TextStyle(color: Colors.blue),
                       ),
                     ),
@@ -212,8 +213,8 @@ class HomePageAdmin extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.grade),
-            label: 'Grade',
+            icon: Icon(Icons.bar_chart),
+            label: 'Chart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
