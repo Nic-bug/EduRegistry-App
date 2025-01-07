@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart' as user_home;
-import 'home_page_staff.dart' as admin_home;
+import 'home_page_admin.dart' as admin_home;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

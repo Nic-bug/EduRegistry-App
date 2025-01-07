@@ -12,7 +12,7 @@ class StaffHomePage extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         title: const Text(
-          'Hi, STAFF MEMBER',
+          'Hi, Admin',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [

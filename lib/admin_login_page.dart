@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page_staff.dart' as staff_home; // Staff home page import
+import 'home_page_admin.dart' as staff_home; // Staff home page import
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});
@@ -14,7 +14,7 @@ class AdminLoginPageState extends State<AdminLoginPage> {
 
   final String correctMatric = '1';  // User credentials (just for reference)
   final String correctPassword = '1'; // User credentials (just for reference)
-  final String staffMatric = '2'; // Staff credentials
+  final String adminMatric = '2'; // Staff credentials
   final String staffPassword = '2'; // Staff credentials
 
   bool _isButtonDisabled = false;
@@ -39,7 +39,7 @@ class AdminLoginPageState extends State<AdminLoginPage> {
       );
     } 
     // Check if staff credentials are correct
-    else if (enteredMatric == staffMatric && enteredPassword == staffPassword) {
+    else if (enteredMatric == adminMatric && enteredPassword == staffPassword) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const staff_home.StaffHomePage()), // Staff home page navigation
