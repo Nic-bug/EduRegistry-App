@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart' as user_home;
-import 'home_page_admin.dart' as admin_home;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,8 +14,6 @@ class LoginPageState extends State<LoginPage> {
 
   final String correctMatric = '1';
   final String correctPassword = '1';
-  final String adminMatric = 'admin';
-  final String adminPassword = 'admin123';
 
   bool _isButtonDisabled = false;
 
@@ -36,11 +33,6 @@ class LoginPageState extends State<LoginPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const user_home.HomePage()),
-      );
-    } else if (enteredMatric == adminMatric && enteredPassword == adminPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const admin_home.StaffHomePage()),
       );
     } else {
       showDialog(
@@ -187,6 +179,25 @@ class LoginPageState extends State<LoginPage> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(14),
                           hintText: 'Enter your password',
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Forgot Password Button
+                  Positioned(
+                    right: 45,
+                    top: 510,
+                    child: TextButton(
+                      onPressed: () {
+                        // You can navigate to a Forgot Password screen here
+                        print("Forgot Password clicked");
+                      },
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: Color(0xFF0961F5),
+                          fontSize: 14,
                         ),
                       ),
                     ),

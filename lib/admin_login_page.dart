@@ -196,6 +196,25 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                     ),
                   ),
 
+                  // Forgot Password Button
+                  Positioned(
+                    right: 45,
+                    top: 510,
+                    child: TextButton(
+                      onPressed: () {
+                        // You can navigate to a Forgot Password screen here
+                        print("Forgot Password clicked");
+                      },
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: Color(0xFF0961F5),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+
                   // Sign In Button
                   Positioned(
                     left: 45,
