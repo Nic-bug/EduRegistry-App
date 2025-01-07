@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart'; // Import your login_page.dart here
+import 'admin_login_page.dart'; // Import your admin_login_page.dart here
 
 void main() {
   runApp(MaterialApp(
@@ -45,11 +46,14 @@ class LoginChoicePage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20), // Space between buttons
-              // Centered "Admin" button
+              // Centered "Admin" button with navigation to admin_login_page
               HoverableButton(
                 label: "Admin",
                 onTap: () {
-                  // Add Admin navigation here if needed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AdminLoginPage()),
+                  );
                 },
               ),
             ],
