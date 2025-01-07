@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart'; //Test changes
+import 'package:flutter/material.dart';
 import 'package:eduregistryselab/home_page.dart'; // Corrected import
+import 'package:eduregistryselab/forgot_password.dart'; // Import Forgot Password Page
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -66,45 +67,58 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F5),
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 80), // Adjusted spacing for the header
+            // Logo and Title Section
+            Column(
               children: [
-                // Centered Text Section
-                Positioned(
-                  left: 0,
-                  top: 150, // Adjusted to a lower position
-                  right: 0,
-                  child: Center(
-                    child: Column(
-                      children: const [
-                        Text(
-                          'EduRegistry',
-                          style: TextStyle(
-                            color: Color(0xFF332DA1),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          'Track. Analyze. Empower.',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
+                Image.asset(
+                  'assets/logo.png', // Replace with your logo asset path
+                  width: 80,
+                  height: 80,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'EduRegistry',
+                  style: TextStyle(
+                    color: Color(0xFF332DA1),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-
-                // Matric Field
-                Positioned(
-                  left: 56,
-                  top: 329,
-                  child: const Text(
+                const Text(
+                  'LEARN FROM HOME',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 40), // Spacing between header and form
+            // Form Section
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x19000000),
+                    blurRadius: 10,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Matric Number Field
+                  const Text(
                     'Matric Number',
                     style: TextStyle(
                       color: Color(0xFF545454),
@@ -112,40 +126,25 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
-                Positioned(
-                  left: 45,
-                  top: 365,
-                  child: Container(
-                    width: 330,
-                    height: 46,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x19000000),
-                          blurRadius: 10,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: TextField(
-                      controller: _matricController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(14),
-                        hintText: 'Enter your matric number',
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _matricController,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      hintText: 'Enter your matric number',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
                       ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
-                ),
-
-                // Password Field
-                Positioned(
-                  left: 56,
-                  top: 427,
-                  child: const Text(
+                  const SizedBox(height: 20),
+                  // Password Field
+                  const Text(
                     'Password',
                     style: TextStyle(
                       color: Color(0xFF545454),
@@ -153,43 +152,28 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
-                Positioned(
-                  left: 45,
-                  top: 458,
-                  child: Container(
-                    width: 330,
-                    height: 46,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x19000000),
-                          blurRadius: 10,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(14),
-                        hintText: 'Enter your password',
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: const Icon(Icons.visibility_off),
+                      hintText: 'Enter your password',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
                       ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
-                ),
-
-                // Sign In Button
-                Positioned(
-                  left: 45,
-                  top: 579,
-                  child: SizedBox(
-                    width: 330,
-                    height: 46,
+                  const SizedBox(height: 30),
+                  // Sign In Button
+                  SizedBox(
+                    width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _isButtonDisabled ? null : _login,
                       style: ElevatedButton.styleFrom(
@@ -199,6 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: const Text(
                         'Sign In',
@@ -210,11 +195,43 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  // Forgot Password Link
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage()),
+                        );
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Forgot Password? ',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'CLICK HERE',
+                              style: const TextStyle(
+                                color: Color(0xFF0961F5),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
