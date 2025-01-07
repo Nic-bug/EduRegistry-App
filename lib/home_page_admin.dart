@@ -37,38 +37,41 @@ class StaffHomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 // Dashboard Card (Replaces Nilam Week)
-                Card(
-                  color: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      // Navigate to the Dashboard Page
-                      Navigator.pushNamed(context, '/staff_dashboard');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'DASHBOARD',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                Container(
+                  width: 350,  // Set the desired width here
+                  child: Card(
+                    color: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        // Navigate to the Dashboard Page
+                        Navigator.pushNamed(context, '/staff_dashboard');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'DASHBOARD',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Manage Staff Activities\nAccess Staff Data & More!',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
+                            SizedBox(height: 10),
+                            Text(
+                              'Manage Staff Activities\nAccess Staff Data & More!',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
