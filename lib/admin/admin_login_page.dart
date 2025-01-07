@@ -1,6 +1,6 @@
-import 'package:eduregistryselab/home_page_admin.dart';
+import 'package:eduregistryselab/admin/home_page_admin.dart';
 import 'package:flutter/material.dart';
-import 'forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
+import 'package:eduregistryselab/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});
@@ -38,14 +38,14 @@ class AdminLoginPageState extends State<AdminLoginPage> {
         context,
         MaterialPageRoute(builder: (context) => const HomePageAdmin()),
       );
-    } 
+    }
     // Check if staff credentials are correct
     else if (enteredMatric == adminMatric && enteredPassword == staffPassword) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomePageAdmin()),
       );
-    } 
+    }
     // If credentials are incorrect
     else {
       showDialog(
@@ -199,8 +199,7 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                ForgotPasswordAdminPage(),
+                            builder: (context) => ForgotPasswordAdminPage(),
                           ),
                         );
                       },

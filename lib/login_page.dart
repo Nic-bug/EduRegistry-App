@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+//import 'package:eduregistryselab/forgot_pass_page.dart'; // Import the ForgotPasswordPage
 import 'package:eduregistryselab/home_page.dart' as user_home;
-
-
+import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
+import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +17,10 @@ class LoginPageState extends State<LoginPage> {
 
   final String correctMatric = '1';
   final String correctPassword = '1';
+  final String adminMatric = 'admin';
+  final String adminPassword = 'admin123';
+  final String superAdminMatric = 'superadmin';
+  final String superAdminPassword = 'superadmin123';
 
   bool _isButtonDisabled = false;
 
@@ -34,9 +38,22 @@ class LoginPageState extends State<LoginPage> {
 
     if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
       Navigator.pushReplacement(
-  context,
-  MaterialPageRoute(builder: (context) => const user_home.HomePage()), // Use the alias 'user_home' here
-);
+        context,
+        MaterialPageRoute(builder: (context) => const user_home.HomePage()),
+      );
+    } else if (enteredMatric == adminMatric &&
+        enteredPassword == adminPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const teacher_home.HomePageAdmin()),
+      );
+    } else if (enteredMatric == superAdminMatric &&
+        enteredPassword == superAdminPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => admin_home.SuperAdminPage()),
+      );
     } else {
       showDialog(
         context: context,
@@ -182,30 +199,6 @@ class LoginPageState extends State<LoginPage> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(14),
                           hintText: 'Enter your password',
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Forgot Password Button
-                  Positioned(
-                    right: 45,
-                    top: 510,
-                    child: TextButton(
-                      onPressed: () {
-                        // Navigate to the ForgotPasswordPage
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>  ForgotPasswordPage(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: Color(0xFF0961F5),
-                          fontSize: 14,
                         ),
                       ),
                     ),

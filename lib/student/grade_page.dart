@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/student_details_page.dart';
+import 'package:eduregistryselab/student/student_details_page.dart';
 
 class GradePage extends StatelessWidget {
   const GradePage({super.key});

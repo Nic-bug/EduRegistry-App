@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'upcoming_page.dart';
-import 'request_page.dart'; // Import the RequestPage
-import 'approval_page.dart';
-import 'history_page.dart';
+import 'package:eduregistryselab/student/upcoming_page.dart';
+import 'package:eduregistryselab/student/request_page.dart';
+import 'package:eduregistryselab/student/approval_page.dart';
+import 'package:eduregistryselab/student/history_page.dart';
 
 class AppointmentPage extends StatelessWidget {
   const AppointmentPage({super.key});
@@ -168,13 +168,11 @@ class AppointmentPage extends StatelessWidget {
             Text('Date & Time: $dateTime'),
             const SizedBox(height: 8),
             Text('Teacher Name: $teacherName'),
-            if (buttons != null) ...[
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: buttons,
-              ),
-            ],
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: buttons ?? [const SizedBox.shrink()],
+            ),
           ],
         ),
       ),

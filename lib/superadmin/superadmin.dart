@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'statisticPage.dart'; // Import the StatisticPage
-import 'student_page.dart'; // Import the StudentPage
-import 'teacher_page.dart'; // Import the TeacherPage
+import 'package:eduregistryselab/superadmin/statisticPage.dart'; // Import the StatisticPage
+import 'package:eduregistryselab/superadmin/student_page.dart'; // Import the StudentPage
+import 'package:eduregistryselab/superadmin/teacher_page.dart'; // Import the TeacherPage
 
 class SuperAdminPage extends StatelessWidget {
   @override
