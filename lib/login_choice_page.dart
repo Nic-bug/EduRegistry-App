@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart'; // Import your login_page.dart here
 
 void main() {
   runApp(MaterialApp(
@@ -33,82 +34,72 @@ class LoginChoicePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 50), // Space between text and buttons
-              // Centered "Parent" button
-              Container(
-                width: 241,
-                height: 46,
-                decoration: ShapeDecoration(
-                  color: Color(0xFF0961F5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x4C000000),
-                      blurRadius: 8,
-                      offset: Offset(1, 2),
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    'Parent',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Jost',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              // Centered "Parent" button with navigation and hover effect
+              HoverableButton(
+                label: "Parent",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
               ),
               SizedBox(height: 20), // Space between buttons
               // Centered "Admin" button
-              Container(
-                width: 241,
-                height: 46,
-                decoration: ShapeDecoration(
-                  color: Color(0xFF0961F5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x4C000000),
-                      blurRadius: 8,
-                      offset: Offset(1, 2),
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    'Admin',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Jost',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 50), // Space between buttons and logo
-              // Logo image centered
-              Container(
-                width: 134,
-                height: 89,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage("https://via.placeholder.com/134x89"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              HoverableButton(
+                label: "Admin",
+                onTap: () {
+                  // Add Admin navigation here if needed
+                },
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HoverableButton extends StatefulWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  HoverableButton({required this.label, required this.onTap});
+
+  @override
+  _HoverableButtonState createState() => _HoverableButtonState();
+}
+
+class _HoverableButtonState extends State<HoverableButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Container(
+          width: 241,
+          height: 46,
+          decoration: ShapeDecoration(
+            color: _isHovered ? Color(0xFF0749C4) : Color(0xFF0961F5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          child: Center(
+            child: Text(
+              widget.label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: 'Jost',
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ),
       ),
