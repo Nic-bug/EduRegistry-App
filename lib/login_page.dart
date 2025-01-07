@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart'; // Ensure this is the correct path for HomePage
-import 'forgotpassword.dart'; // Ensure this is the correct path for ForgotPasswordPage
+import 'home_page.dart' as user_home;
+import 'admin_home_page.dart' as admin_home;
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key}); // Pass key to the super constructor
+  const LoginPage({super.key});
 
   @override
   LoginPageState createState() => LoginPageState();
@@ -15,6 +15,8 @@ class LoginPageState extends State<LoginPage> {
 
   final String correctMatric = '1';
   final String correctPassword = '1';
+  final String adminMatric = 'admin';
+  final String adminPassword = 'admin123';
 
   bool _isButtonDisabled = false;
 
@@ -23,21 +25,24 @@ class LoginPageState extends State<LoginPage> {
     final enteredPassword = _passwordController.text.trim();
 
     setState(() {
-      _isButtonDisabled = true; // Disable button while processing login
+      _isButtonDisabled = true;
     });
 
-    // Simulate a delay for login processing
     await Future.delayed(const Duration(seconds: 1));
 
-    if (!mounted) return; // Ensure widget is still in the widget tree
+    if (!mounted) return;
 
     if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const user_home.HomePage()),
+      );
+    } else if (enteredMatric == adminMatric && enteredPassword == adminPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const admin_home.AdminHomePage()),
       );
     } else {
-      // Show error dialog for incorrect login
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -62,14 +67,6 @@ class LoginPageState extends State<LoginPage> {
         },
       );
     }
-  }
-
-  void _forgotPassword() {
-    // Navigate to Forgot Password page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-    );
   }
 
   @override
@@ -219,23 +216,6 @@ class LoginPageState extends State<LoginPage> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Forgot Password Button
-                  Positioned(
-                    left: 45,
-                    top: 635,
-                    child: TextButton(
-                      onPressed: _forgotPassword,
-                      child: const Text(
-                        'Forgot Password? Click here',
-                        style: TextStyle(
-                          color: Color(0xFF0961F5),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
