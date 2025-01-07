@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart'; // Import your login_page.dart here
 import 'admin_login_page.dart'; // Import your admin_login_page.dart here
+import 'superadmin.dart'; // Import your superadmin_login_page.dart here
 
 void main() {
   runApp(MaterialApp(
@@ -53,6 +54,17 @@ class LoginChoicePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AdminLoginPage()),
+                  );
+                },
+              ),
+              SizedBox(height: 20), // Space between buttons
+              // Centered "Superadmin" button with navigation to superadmin_login_page
+              HoverableButton(
+                label: "Superadmin",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SuperAdminPage()),
                   );
                 },
               ),
