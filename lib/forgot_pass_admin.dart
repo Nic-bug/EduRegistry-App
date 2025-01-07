@@ -20,6 +20,8 @@ void main() {
   }
 
 class ForgotPasswordAdminPage extends StatelessWidget {
+  const ForgotPasswordAdminPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
