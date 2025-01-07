@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class StaffHomePage extends StatelessWidget {
+  const StaffHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         title: const Text(
-          'Hi, TEACHER WAN',
+          'Hi, Admin',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -32,38 +32,47 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "What Would you like to learn Today?\nSearch Below.",
+                  "What would you like to manage today?\nSearch below.",
                   style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
                 const SizedBox(height: 20),
-                // Featured Card
-                Card(
-                  color: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'WEEK 7',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                // Dashboard Card (Replaces Nilam Week)
+                Container(
+                  width: 350,  // Set the desired width here
+                  child: Card(
+                    color: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        // Navigate to the Dashboard Page
+                        Navigator.pushNamed(context, '/staff_dashboard');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'DASHBOARD',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Manage Staff Activities\nAccess Staff Data & More!',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Nilam Week\nGET YOUR MERIT BY JOINING OUR PROGRAM!!',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -75,7 +84,7 @@ class HomePage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Navigate to the Merit System Page
-                        Navigator.pushNamed(context, '/grade_page');
+                        Navigator.pushNamed(context, '/staff_merit');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -92,7 +101,7 @@ class HomePage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Navigate to the Appointment Page
-                        Navigator.pushNamed(context, '/appointment');
+                        Navigator.pushNamed(context, '/staff_appointments');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -183,17 +192,18 @@ class HomePage extends StatelessWidget {
         onTap: (index) {
           // Handle navigation based on index
           if (index == 0) {
-            Navigator.pushNamed(context, '/main'); // Navigate to HomePage
+            Navigator.pushNamed(
+                context, '/staff_home'); // Navigate to Staff Home Page
           } else if (index == 1) {
             Navigator.pushNamed(
-                context, '/grade_page'); // Navigate to GradePage
+                context, '/staff_merit'); // Navigate to Staff Merit Page
           } else if (index == 2) {
             Navigator.pushNamed(
-                context, '/notifications'); // Notifications Page
+                context, '/staff_notifications'); // Notifications Page
           } else if (index == 3) {
-            Navigator.pushNamed(context, '/chat'); // Chat Page
+            Navigator.pushNamed(context, '/staff_chat'); // Chat Page
           } else if (index == 4) {
-            Navigator.pushNamed(context, '/profile'); // Profile Page
+            Navigator.pushNamed(context, '/staff_profile'); // Profile Page
           }
         },
         items: const [

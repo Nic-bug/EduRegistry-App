@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Ensure that the correct path is used for LoginPage
+import 'login_choice_page.dart'; // Ensure this is the correct path to LoginChoicePage
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SplashScreenState createState() => _SplashScreenState();
 }
 
@@ -13,12 +12,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Navigate to the login page after 3 seconds
+    // Navigate to the login choice page after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => LoginChoicePage()), // Ensure LoginChoicePage is being used
       );
     });
   }

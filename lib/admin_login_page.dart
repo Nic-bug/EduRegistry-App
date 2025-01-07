@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart' as user_home;
-import 'home_page_admin.dart' as admin_home;
+import 'home_page_admin.dart' as staff_home; // Staff home page import
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class AdminLoginPage extends StatefulWidget {
+  const AdminLoginPage({super.key});
 
   @override
-  LoginPageState createState() => LoginPageState();
+  AdminLoginPageState createState() => AdminLoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class AdminLoginPageState extends State<AdminLoginPage> {
   final TextEditingController _matricController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final String correctMatric = '1';
-  final String correctPassword = '1';
-  final String adminMatric = 'admin';
-  final String adminPassword = 'admin123';
+  final String correctMatric = '1';  // User credentials (just for reference)
+  final String correctPassword = '1'; // User credentials (just for reference)
+  final String adminMatric = '2'; // Staff credentials
+  final String staffPassword = '2'; // Staff credentials
 
   bool _isButtonDisabled = false;
 
@@ -32,17 +31,22 @@ class LoginPageState extends State<LoginPage> {
 
     if (!mounted) return;
 
+    // Check if user credentials are correct
     if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const user_home.HomePage()),
+        MaterialPageRoute(builder: (context) => const staff_home.StaffHomePage()),
       );
-    } else if (enteredMatric == adminMatric && enteredPassword == adminPassword) {
+    } 
+    // Check if staff credentials are correct
+    else if (enteredMatric == adminMatric && enteredPassword == staffPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const admin_home.StaffHomePage()),
+        MaterialPageRoute(builder: (context) => const staff_home.StaffHomePage()), // Staff home page navigation
       );
-    } else {
+    } 
+    // If credentials are incorrect
+    else {
       showDialog(
         context: context,
         builder: (BuildContext context) {

@@ -1,18 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/edit_profile.dart';
+import 'edit_profile.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  // Define initial values for the profile fields
+  String name = "Muhammad Afiq";
+  String className = "6 Amanah";
+  String matricNo = "xxxxxx";
+  String icNo = "xxxxxxxxxxxx";
+
+  // Function to update the profile with new values
+  void _updateProfile(String updatedName, String updatedClass,
+      String updatedMatricNo, String updatedIcNo) {
+    setState(() {
+      name = updatedName;
+      className = updatedClass;
+      matricNo = updatedMatricNo;
+      icNo = updatedIcNo;
+    });
+  }
+
   void _signOut(BuildContext context) {
-    // Navigate to the LoginPage and clear navigation history
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEAF3FF), // Light blue background
+      backgroundColor: const Color(0xFFEAF3FF),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -84,15 +105,31 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              ProfileField(label: "Name", value: "Muhammad Afiq"),
-              ProfileField(label: "Class", value: "6 Amanah"),
-              ProfileField(label: "Matric No", value: "xxxxxx"),
-              ProfileField(label: "IC No", value: "xxxxxxxxxxxx"),
+              ProfileField(label: "Name", value: name),
+              ProfileField(label: "Class", value: className),
+              ProfileField(label: "Matric No", value: matricNo),
+              ProfileField(label: "IC No", value: icNo),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  // Navigate to Edit Profile Page
-                  Navigator.pushNamed(context, '/edit_profile');
+                onPressed: () async {
+                  // Navigate to Edit Profile Page and wait for the result
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfilePage(
+                        name: name,
+                        className: className,
+                        matricNo: matricNo,
+                        icNo: icNo,
+                      ),
+                    ),
+                  );
+
+                  // If result is not null, update profile with the new values
+                  if (result != null) {
+                    _updateProfile(result['name'], result['className'],
+                        result['matricNo'], result['icNo']);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
@@ -111,45 +148,6 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 4, // Set "Profile" as the selected index
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/home_page');
-          } else if (index == 1) {
-            Navigator.pushNamed(context, '/grade_page');
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/notifications');
-          } else if (index == 3) {
-            Navigator.pushNamed(context, '/chat');
-          } else if (index == 4) {
-            // Stay on Profile page
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.grade),
-            label: 'Grade',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notification',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
       ),
     );
   }

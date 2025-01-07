@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart'; // Ensure this is the correct path for LoginPage
 import 'splash_screen.dart'; // Ensure this is the correct path for SplashScreen
-import 'package:eduregistryselab/home_page.dart';
- // Ensure this is the correct path for HomePage
+import 'package:eduregistryselab/home_page.dart'; // Ensure this is the correct path for HomePage
+import 'package:eduregistryselab/grade_page.dart'; // Ensure this is the correct path for GradePage
+import 'package:eduregistryselab/notifications.dart';
+import 'package:eduregistryselab/forgotpassword.dart';
+import 'package:eduregistryselab/chat.dart';
+import 'package:eduregistryselab/profile.dart';
+import 'package:eduregistryselab/appointment.dart'; // Import AppointmentPage
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +26,16 @@ class MyApp extends StatelessWidget {
         '/': (context) =>
             const SplashScreen(), // SplashScreen is the initial screen
         '/login': (context) => const LoginPage(), // Route to LoginPage
-        '/home': (context) => HomePage(), // Route to HomePage
+        '/forgotPassword': (context) =>
+            ForgotPasswordPage(), // Route to ForgotPasswordPage
+        '/home_page': (context) => const HomePage(), // Route to HomePage
+        '/grade_page': (context) => const GradePage(), // Route to GradePage
+        '/notifications': (context) =>
+            const NotificationsPage(), // Route to NotificationsPage
+        '/chat': (context) => const ChatPage(), // Route to ChatPage
+        '/profile': (context) => const ProfilePage(), // Route to ProfilePage
+        '/appointment': (context) =>
+            const AppointmentPage(), // Route to AppointmentPage
       },
     );
   }

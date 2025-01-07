@@ -7,11 +7,11 @@ class ConfirmationAppointment extends StatelessWidget {
   final String? selectedTime;
 
   const ConfirmationAppointment({
-    Key? key,
+    super.key,
     required this.selectedStudent,
     required this.selectedDate,
     required this.selectedTime,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
