@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart' as user_home;
+import 'package:eduregistryselab/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+import 'package:eduregistryselab/home_page.dart' as user_home;
+
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,9 +34,9 @@ class LoginPageState extends State<LoginPage> {
 
     if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
       Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const user_home.HomePage()),
-      );
+  context,
+  MaterialPageRoute(builder: (context) => const user_home.HomePage()), // Use the alias 'user_home' here
+);
     } else {
       showDialog(
         context: context,
@@ -190,8 +193,13 @@ class LoginPageState extends State<LoginPage> {
                     top: 510,
                     child: TextButton(
                       onPressed: () {
-                        // You can navigate to a Forgot Password screen here
-                        print("Forgot Password clicked");
+                        // Navigate to the ForgotPasswordPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>  ForgotPasswordPage(),
+                          ),
+                        );
                       },
                       child: const Text(
                         'Forgot Password?',

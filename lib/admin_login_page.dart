@@ -1,5 +1,6 @@
+import 'package:eduregistryselab/home_page_admin.dart';
 import 'package:flutter/material.dart';
-import 'home_page_admin.dart' as staff_home; // Staff home page import
+import 'forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});
@@ -12,7 +13,7 @@ class AdminLoginPageState extends State<AdminLoginPage> {
   final TextEditingController _matricController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final String correctMatric = '1';  // User credentials (just for reference)
+  final String correctMatric = '1'; // User credentials (just for reference)
   final String correctPassword = '1'; // User credentials (just for reference)
   final String adminMatric = '2'; // Staff credentials
   final String staffPassword = '2'; // Staff credentials
@@ -35,14 +36,14 @@ class AdminLoginPageState extends State<AdminLoginPage> {
     if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const staff_home.StaffHomePage()),
+        MaterialPageRoute(builder: (context) => const HomePageAdmin()),
       );
     } 
     // Check if staff credentials are correct
     else if (enteredMatric == adminMatric && enteredPassword == staffPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const staff_home.StaffHomePage()), // Staff home page navigation
+        MaterialPageRoute(builder: (context) => const HomePageAdmin()),
       );
     } 
     // If credentials are incorrect
@@ -84,7 +85,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
               height: MediaQuery.of(context).size.height,
               child: Stack(
                 children: [
-                  // App Title
                   Positioned(
                     left: 0,
                     top: 150,
@@ -112,8 +112,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                     ),
                   ),
-
-                  // Matric Field
                   Positioned(
                     left: 56,
                     top: 329,
@@ -153,8 +151,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                     ),
                   ),
-
-                  // Password Field
                   Positioned(
                     left: 56,
                     top: 427,
@@ -195,15 +191,18 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                     ),
                   ),
-
-                  // Forgot Password Button
                   Positioned(
                     right: 45,
                     top: 510,
                     child: TextButton(
                       onPressed: () {
-                        // You can navigate to a Forgot Password screen here
-                        print("Forgot Password clicked");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ForgotPasswordAdminPage(),
+                          ),
+                        );
                       },
                       child: const Text(
                         'Forgot Password?',
@@ -214,8 +213,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                     ),
                   ),
-
-                  // Sign In Button
                   Positioned(
                     left: 45,
                     top: 579,

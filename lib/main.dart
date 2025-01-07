@@ -4,7 +4,7 @@ import 'splash_screen.dart'; // Ensure this is the correct path for SplashScreen
 import 'package:eduregistryselab/home_page.dart'; // Ensure this is the correct path for HomePage
 import 'package:eduregistryselab/grade_page.dart'; // Ensure this is the correct path for GradePage
 import 'package:eduregistryselab/notifications.dart';
-import 'package:eduregistryselab/forgotpassword.dart';
+import 'package:eduregistryselab/forgot_pass_page.dart';
 import 'package:eduregistryselab/chat.dart';
 import 'package:eduregistryselab/profile.dart';
 import 'package:eduregistryselab/appointment.dart'; // Import AppointmentPage
