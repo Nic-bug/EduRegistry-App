@@ -13,166 +13,176 @@ class HomePageAdmin extends StatelessWidget {
         centerTitle: false,
         automaticallyImplyLeading: false, // Hides the back button
         title: const Text(
-          'Hi, Teacher',
+          'HI, TEACHER',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-          
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications, color: Colors.black),
+            onPressed: () {
+              // Handle notifications here
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center, // Center align content
               children: [
                 const Text(
-                  "What would you like to manage today? Search below.",
+                  "What Would you like to learn Today?",
                   style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
                 const SizedBox(height: 20),
-                // Dashboard Card (Replaces Nilam Week)
+                // Featured Card with increased width
                 Container(
-                  width: 350, // Set the desired width here
+                  width: MediaQuery.of(context).size.width * 0.9, // Make card wider
                   child: Card(
                     color: Colors.blue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: InkWell(
-                      onTap: () {
-                        // Navigate to the Dashboard Page
-                        Navigator.pushNamed(context, '/staff_dashboard');
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'DASHBOARD',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'WEEK 7',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Track Student Progress Today!',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Track Student progress Today.',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Merit System and Appointment Buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigate to the Add Student Page
-                        Navigator.pushNamed(context, '/admin_merit');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(color: Colors.blue),
+                // Merit System and Appointment Buttons with wider width
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9, // Make button container wider
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center, // Center buttons
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Navigate to the Merit System Page
+                          Navigator.pushNamed(context, '/grade_page');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: const BorderSide(color: Colors.blue),
+                          ),
+                        ),
+                        child: const Text(
+                          "ADD STUDENT",
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ),
-                      child: const Text(
-                        "ADD STUDENT",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigate to the Appointment Page
-                        Navigator.pushNamed(context, '/staff_appointments');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(color: Colors.blue),
+                      const SizedBox(width: 20), // Add space between buttons
+                      ElevatedButton(
+                        onPressed: () {
+                          // Navigate to the Appointment Page
+                          Navigator.pushNamed(context, '/appointment');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: const BorderSide(color: Colors.blue),
+                          ),
+                        ),
+                        child: const Text(
+                          "ADD MERIT",
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ),
-                      child: const Text(
-                        "APPOINTMENT",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
-                // Ranking Section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      "Ranking",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                // Ranking Section placed to the left of the class and student chips
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9, // Make ranking section wider
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start, // Align ranking text to the left
+                    children: const [
+                      Text(
+                        "Ranking",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "SEE ALL",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 10),
-                // Tabs for rankings
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Chip(
-                      label: const Text("All"),
-                      backgroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.blue),
-                    ),
-                    Chip(
-                      label: const Text(
-                        "KELAS TERBERSIH",
-                        style: TextStyle(color: Colors.white),
+                // Tabs for rankings with wider width and chips centered
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9, // Make chips section wider
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space out the chips
+                    children: [
+                      // Make CLASS chip wider
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4, // Set width for the CLASS chip
+                        child: Chip(
+                          label: const Text(
+                            "CLASS",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.blue,
+                        ),
                       ),
-                      backgroundColor: Colors.blue,
-                    ),
-                    Chip(
-                      label: const Text("Merit Tertinggi"),
-                      backgroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.blue),
-                    ),
-                  ],
+                      // Make STUDENT chip wider
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4, // Set width for the STUDENT chip
+                        child: Chip(
+                          label: const Text("STUDENT"),
+                          backgroundColor: Colors.white,
+                          side: const BorderSide(color: Colors.blue),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
-                // Ranking Card
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: ListTile(
-                    leading: const Text(
-                      "1.",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                // Ranking Card with wider width
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9, // Make ranking card wider
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    title: const Text("KELAS 5 BIJAK"),
-                    subtitle: const Text("850/-  |  4.2  |  7830 Std"),
-                    trailing: const Icon(Icons.star, color: Colors.yellow),
+                    child: ListTile(
+                      leading: const Text(
+                        "1.",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      title: const Text("5 BIJAK CLASS"),
+                      subtitle: const Text("850/-  |  4.2  |  7830 Std"),
+                      trailing: const Icon(Icons.star, color: Colors.yellow),
+                    ),
                   ),
                 ),
               ],
@@ -186,18 +196,17 @@ class HomePageAdmin extends StatelessWidget {
         onTap: (index) {
           // Handle navigation based on index
           if (index == 0) {
-            Navigator.pushNamed(
-                context, '/staff_home'); // Navigate to Staff Home Page
+            Navigator.pushNamed(context, '/main'); // Navigate to HomePage
           } else if (index == 1) {
             Navigator.pushNamed(
-                context, '/staff_merit'); // Navigate to Staff Merit Page
+                context, '/grade_page'); // Navigate to GradePage
           } else if (index == 2) {
             Navigator.pushNamed(
-                context, '/staff_notifications'); // Notifications Page
+                context, '/notifications'); // Notifications Page
           } else if (index == 3) {
-            Navigator.pushNamed(context, '/staff_chat'); // Chat Page
+            Navigator.pushNamed(context, '/chat'); // Chat Page
           } else if (index == 4) {
-            Navigator.pushNamed(context, '/staff_profile'); // Profile Page
+            Navigator.pushNamed(context, '/profile'); // Profile Page
           }
         },
         items: const [
