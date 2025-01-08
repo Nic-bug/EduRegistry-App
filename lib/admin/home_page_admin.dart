@@ -16,7 +16,6 @@ class HomePageAdmin extends StatelessWidget {
           'Hi, Teacher',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-          
       ),
       body: SafeArea(
         child: SingleChildScrollView(

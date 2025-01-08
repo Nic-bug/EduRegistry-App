@@ -1,10 +1,10 @@
-import 'package:eduregistryselab/authen_page.dart';
+import 'package:eduregistryselab/student/authen_page_student.dart';
 import 'package:flutter/material.dart';
+import 'student_signup_page.dart'; // Ensure studentSignupPage is imported
+import 'package:eduregistryselab/student/login_page.dart'; // Make sure to import your studentLoginPage here
 
-
-void main()
-
- {
+void main() {
+  runApp(MaterialApp(home: ForgotPasswordPage()));
 }
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -32,7 +32,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Navigator.of(context).pop(); // Close the dialog
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => AuthenPage()), // Navigate to VerificationPage
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          AuthenPagestudent()), // Navigate to VerificationPage
                 );
               },
               child: Text("OK"),
@@ -107,52 +109,62 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Positioned(
                   left: 136,
                   top: 569,
-                  child: Container(
-                    width: 155,
-                    height: 46,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 155,
-                            height: 46,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFFF5740),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              shadows: [
-                                BoxShadow(
-                                  color: Color(0x4C000000),
-                                  blurRadius: 8,
-                                  offset: Offset(1, 2),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 0,
-                          top: 12,
-                          child: SizedBox(
-                            width: 155,
-                            child: Text(
-                              'Sign Up',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: 'Jost',
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.none,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the studentSignupPage when clicked
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => studentSignupPage()),
+                      );
+                    },
+                    child: Container(
+                      width: 155,
+                      height: 46,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            child: Container(
+                              width: 155,
+                              height: 46,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFFF5740),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x4C000000),
+                                    blurRadius: 8,
+                                    offset: Offset(1, 2),
+                                    spreadRadius: 0,
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          Positioned(
+                            left: 0,
+                            top: 12,
+                            child: SizedBox(
+                              width: 155,
+                              child: Text(
+                                'Sign Up',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'Jost',
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -187,16 +199,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Positioned(
                   left: 166,
                   top: 419,
-                  child: Opacity(
-                    opacity: 0.50,
-                    child: Text(
-                      'Back to Sign In',
-                      style: TextStyle(
-                        color: Color(0xFF0961F5),
-                        fontSize: 13,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the studentLoginPage when clicked
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Opacity(
+                      opacity: 0.50,
+                      child: Text(
+                        'Back to Sign In',
+                        style: TextStyle(
+                          color: Color(0xFF0961F5),
+                          fontSize: 13,
+                          fontFamily: 'Mulish',
+                          fontWeight: FontWeight.w700,
+                          decoration: TextDecoration.none,
+                        ),
                       ),
                     ),
                   ),
@@ -236,7 +257,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               decoration: InputDecoration(
                                 hintText: 'Enter your email',
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 12),
                               ),
                             ),
                           ),

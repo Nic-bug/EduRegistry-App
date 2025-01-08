@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Import your login_page.dart here
+import 'student/login_page.dart'; // Import your login_page.dart here
 import 'package:eduregistryselab/admin/admin_login_page.dart'; // Import your admin_login_page.dart here
 import 'superadmin/superadmin.dart'; // Import your superadmin_login_page.dart here
 

@@ -1,25 +1,32 @@
-import 'package:eduregistryselab/login_page.dart';
 import 'package:flutter/material.dart';
-//import 'package:eduregistryselab/admin/home_page_admin.dart'; // Home page after successful password update
-//import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Forgot password page
-//import 'package:eduregistryselab/superadmin/login_page.dart'; // Login page
+import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+import 'package:eduregistryselab/home_page.dart' as user_home;
+import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
+import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
 
-class NewPassword extends StatefulWidget {
-  const NewPassword({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  NewPasswordState createState() => NewPasswordState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class NewPasswordState extends State<NewPassword> {
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+class LoginPageState extends State<LoginPage> {
+  final TextEditingController _matricController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final String correctMatric = '1';
+  final String correctPassword = '1';
+  final String adminMatric = 'admin';
+  final String adminPassword = 'admin123';
+  final String superAdminMatric = 'superadmin';
+  final String superAdminPassword = 'superadmin123';
 
   bool _isButtonDisabled = false;
 
-  Future<void> _updatePassword() async {
-    final newPassword = _newPasswordController.text.trim();
-    final confirmPassword = _confirmPasswordController.text.trim();
+  Future<void> _login() async {
+    final enteredMatric = _matricController.text.trim();
+    final enteredPassword = _passwordController.text.trim();
 
     setState(() {
       _isButtonDisabled = true;
@@ -29,48 +36,40 @@ class NewPasswordState extends State<NewPassword> {
 
     if (!mounted) return;
 
-    // Check if new password and confirm password match
-    if (newPassword == confirmPassword) {
-      // Show a success dialog for password creation
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Your new password has been successfully created.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  // Close the success dialog and navigate to the login page
-                  Navigator.of(context).pop();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                  );
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
+    if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const user_home.HomePage()),
+      );
+    } else if (enteredMatric == adminMatric &&
+        enteredPassword == adminPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const teacher_home.HomePageAdmin()),
+      );
+    } else if (enteredMatric == superAdminMatric &&
+        enteredPassword == superAdminPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => admin_home.SuperAdminPage()),
       );
     } else {
-      // Show dialog for password mismatch
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Password Mismatch'),
-            content: const Text('The passwords do not match. Please try again.'),
+            title: const Text('Incorrect Credentials'),
+            content: const Text(
+                'The matric number or password you entered is incorrect. Please try again.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  // Close dialog and reset fields
                   Navigator.of(context).pop();
                   setState(() {
                     _isButtonDisabled = false;
-                    _newPasswordController.clear();
-                    _confirmPasswordController.clear();
+                    _matricController.clear();
+                    _passwordController.clear();
                   });
                 },
                 child: const Text('OK'),
@@ -93,6 +92,7 @@ class NewPasswordState extends State<NewPassword> {
               height: MediaQuery.of(context).size.height,
               child: Stack(
                 children: [
+                  // App Title
                   Positioned(
                     left: 0,
                     top: 150,
@@ -120,11 +120,13 @@ class NewPasswordState extends State<NewPassword> {
                       ),
                     ),
                   ),
+
+                  // Matric Field
                   Positioned(
                     left: 56,
                     top: 329,
                     child: const Text(
-                      'New Password',
+                      'Matric Number',
                       style: TextStyle(
                         color: Color(0xFF545454),
                         fontSize: 16,
@@ -150,21 +152,22 @@ class NewPasswordState extends State<NewPassword> {
                         ],
                       ),
                       child: TextField(
-                        controller: _newPasswordController,
-                        obscureText: true,
+                        controller: _matricController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(14),
-                          hintText: 'Enter new password',
+                          hintText: 'Enter your matric number',
                         ),
                       ),
                     ),
                   ),
+
+                  // Password Field
                   Positioned(
                     left: 56,
                     top: 427,
                     child: const Text(
-                      'Confirm Password',
+                      'Password',
                       style: TextStyle(
                         color: Color(0xFF545454),
                         fontSize: 16,
@@ -190,16 +193,18 @@ class NewPasswordState extends State<NewPassword> {
                         ],
                       ),
                       child: TextField(
-                        controller: _confirmPasswordController,
+                        controller: _passwordController,
                         obscureText: true,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(14),
-                          hintText: 'Confirm your password',
+                          hintText: 'Enter your password',
                         ),
                       ),
                     ),
                   ),
+
+                  // Sign In Button
                   Positioned(
                     left: 45,
                     top: 579,
@@ -207,7 +212,7 @@ class NewPasswordState extends State<NewPassword> {
                       width: 330,
                       height: 46,
                       child: ElevatedButton(
-                        onPressed: _isButtonDisabled ? null : _updatePassword,
+                        onPressed: _isButtonDisabled ? null : _login,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _isButtonDisabled
                               ? Colors.grey
@@ -217,10 +222,36 @@ class NewPasswordState extends State<NewPassword> {
                           ),
                         ),
                         child: const Text(
-                          'Update Password',
+                          'Sign In',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Forgot Password Button
+                  Positioned(
+                    left: 0,
+                    top: 635,
+                    right: 0,
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPasswordPage()),
+                          );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Color(0xFF0961F5),
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
