@@ -1,3 +1,4 @@
+import 'package:eduregistryselab/admin/new_password_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,18 +29,22 @@ class AuthenPageAdmin extends StatelessWidget {
       SnackBar(
         content: const Text(
           'Verification Successful',
-          style: TextStyle(fontFamily: 'Jost', fontSize: 14, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontFamily: 'Jost',
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         backgroundColor: const Color(0xFF0961F5),
         duration: const Duration(seconds: 3), // Popup stays for 3 seconds
       ),
     );
 
-    // Navigate to NewPasswordAdminPage after 3 seconds
+    // Navigate to NewPasswordAdmin after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const NewPasswordAdminPage()),
+        MaterialPageRoute(builder: (context) => const NewPasswordAdmin()),
       );
     });
   }
@@ -210,18 +215,3 @@ class AuthenPageAdmin extends StatelessWidget {
   }
 }
 
-class NewPasswordAdminPage extends StatelessWidget {
-  const NewPasswordAdminPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('New Password'),
-      ),
-      body: const Center(
-        child: Text('Create a New Password'),
-      ),
-    );
-  }
-}
