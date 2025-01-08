@@ -1,8 +1,11 @@
+import 'package:eduregistryselab/student/grade_page.dart';
 import 'package:flutter/material.dart';
 import 'chart_page.dart'; // Import the ChartAdminPage
 import 'real_chat.dart'; // Import the ChatAdminPage
 import 'profile_page.dart'; // Import the ProfileAdminPage
 import 'noti_page.dart'; // Import the NotificationAdminPage
+import 'add_merit.dart'; // Import the AddMerit page
+//import 'grade_page.dart'; // Import the GradePage
 
 class HomePageAdmin extends StatefulWidget {
   const HomePageAdmin({super.key});
@@ -144,7 +147,11 @@ class HomeContent extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/grade_page');
+                      // Navigate to AddMerit page when clicked
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AddMerit()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -154,7 +161,7 @@ class HomeContent extends StatelessWidget {
                       ),
                     ),
                     child: const Text(
-                      "ADD STUDENT",
+                      "ADD MERIT",
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
@@ -171,7 +178,7 @@ class HomeContent extends StatelessWidget {
                       ),
                     ),
                     child: const Text(
-                      "ADD MERIT",
+                      "APPOINTMENT",
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
@@ -212,10 +219,19 @@ class HomeContent extends StatelessWidget {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.4,
-                    child: Chip(
-                      label: const Text("STUDENT"),
-                      backgroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.blue),
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigate to the GradePage when tapped
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const GradePage()),
+                        );
+                      },
+                      child: Chip(
+                        label: const Text("STUDENT"),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.blue),
+                      ),
                     ),
                   ),
                 ],
