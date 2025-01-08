@@ -1,22 +1,22 @@
+import 'package:eduregistryselab/admin/home_page_admin.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart' as user_home;
-import 'home_page_admin.dart' as admin_home;
+import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class AdminLoginPage extends StatefulWidget {
+  const AdminLoginPage({super.key});
 
   @override
-  LoginPageState createState() => LoginPageState();
+  AdminLoginPageState createState() => AdminLoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class AdminLoginPageState extends State<AdminLoginPage> {
   final TextEditingController _matricController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final String correctMatric = '1';
-  final String correctPassword = '1';
-  final String adminMatric = 'admin';
-  final String adminPassword = 'admin123';
+  final String correctMatric = '1'; // User credentials (just for reference)
+  final String correctPassword = '1'; // User credentials (just for reference)
+  final String adminMatric = '2'; // Staff credentials
+  final String staffPassword = '2'; // Staff credentials
 
   bool _isButtonDisabled = false;
 
@@ -32,17 +32,22 @@ class LoginPageState extends State<LoginPage> {
 
     if (!mounted) return;
 
+    // Check if user credentials are correct
     if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const user_home.HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePageAdmin()),
       );
-    } else if (enteredMatric == adminMatric && enteredPassword == adminPassword) {
+    }
+    // Check if staff credentials are correct
+    else if (enteredMatric == adminMatric && enteredPassword == staffPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const admin_home.StaffHomePage()),
+        MaterialPageRoute(builder: (context) => const HomePageAdmin()),
       );
-    } else {
+    }
+    // If credentials are incorrect
+    else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -80,7 +85,6 @@ class LoginPageState extends State<LoginPage> {
               height: MediaQuery.of(context).size.height,
               child: Stack(
                 children: [
-                  // App Title
                   Positioned(
                     left: 0,
                     top: 150,
@@ -108,8 +112,6 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  // Matric Field
                   Positioned(
                     left: 56,
                     top: 329,
@@ -149,8 +151,6 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  // Password Field
                   Positioned(
                     left: 56,
                     top: 427,
@@ -191,8 +191,27 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  // Sign In Button
+                  Positioned(
+                    right: 45,
+                    top: 510,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordAdminPage(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: Color(0xFF0961F5),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
                   Positioned(
                     left: 45,
                     top: 579,

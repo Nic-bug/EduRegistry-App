@@ -11,8 +11,9 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
+        automaticallyImplyLeading: false, // Hides the back button
         title: const Text(
-          'Hi, TEACHER WAN',
+          'Hi, STUDENT',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
