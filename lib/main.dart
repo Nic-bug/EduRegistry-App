@@ -8,8 +8,12 @@ import 'package:eduregistryselab/forgotpassword.dart';
 import 'package:eduregistryselab/chat.dart';
 import 'package:eduregistryselab/profile.dart';
 import 'package:eduregistryselab/appointment.dart'; // Import AppointmentPage
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); // Initialize Firebase
   runApp(const MyApp());
 }
 
