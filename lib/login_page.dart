@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:eduregistryselab/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+import 'package:eduregistryselab/forgot_pass_page.dart'; // Import the ForgotPasswordPage
 import 'package:eduregistryselab/home_page.dart' as user_home;
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
 import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
@@ -226,6 +226,32 @@ class LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Forgot Password Button
+                  Positioned(
+                    left: 0,
+                    top: 635,
+                    right: 0,
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPasswordPage()),
+                          );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Color(0xFF0961F5),
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
