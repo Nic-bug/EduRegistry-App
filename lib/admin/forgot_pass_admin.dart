@@ -1,10 +1,9 @@
 import 'package:eduregistryselab/admin/authen_page_admin.dart';
 import 'package:flutter/material.dart';
+import 'admin_login_page.dart';  // Make sure to import your AdminLoginPage here
 
-
-void main()
-
- {
+void main() {
+  runApp(MaterialApp(home: ForgotPasswordAdminPage()));
 }
 
 class ForgotPasswordAdminPage extends StatefulWidget {
@@ -184,16 +183,25 @@ class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
                 Positioned(
                   left: 166,
                   top: 419,
-                  child: Opacity(
-                    opacity: 0.50,
-                    child: Text(
-                      'Back to Sign In',
-                      style: TextStyle(
-                        color: Color(0xFF0961F5),
-                        fontSize: 13,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the AdminLoginPage when clicked
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => AdminLoginPage()),
+                      );
+                    },
+                    child: Opacity(
+                      opacity: 0.50,
+                      child: Text(
+                        'Back to Sign In',
+                        style: TextStyle(
+                          color: Color(0xFF0961F5),
+                          fontSize: 13,
+                          fontFamily: 'Mulish',
+                          fontWeight: FontWeight.w700,
+                          decoration: TextDecoration.none,
+                        ),
                       ),
                     ),
                   ),
