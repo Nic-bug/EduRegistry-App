@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
-import 'package:eduregistryselab/home_page.dart' as user_home;
+import 'package:eduregistryselab/home_page_superadmin.dart' as user_home;
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
 import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
 

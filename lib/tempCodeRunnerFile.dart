@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'student/login_page.dart'; // Ensure this is the correct path for LoginPage
 import 'splash_screen.dart'; // Ensure this is the correct path for SplashScreen
-import 'package:eduregistryselab/home_page.dart';
+import 'package:eduregistryselab/home_page_superadmin.dart';
 // Ensure this is the correct path for HomePage
 
 void main() {
