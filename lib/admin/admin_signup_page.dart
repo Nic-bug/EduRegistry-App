@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'admin_login_page.dart'; // Import the AdminLoginPage
 
 class AdminSignupPage extends StatefulWidget {
   const AdminSignupPage({super.key});
@@ -54,7 +55,14 @@ class AdminSignUpPageState extends State<AdminSignupPage> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // Close the dialog
+                  // Navigate to AdminLoginPage
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminLoginPage(),
+                    ),
+                  );
                 },
                 child: const Text('OK'),
               ),
