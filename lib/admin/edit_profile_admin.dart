@@ -1,48 +1,61 @@
 import 'package:flutter/material.dart';
 
-class EditProfilePage extends StatefulWidget {
+class AdminEditProfilePage extends StatefulWidget {
   final String name;
-  final String className;
-  final String matricNo;
-  final String icNo;
+  final String icNumber;
+  final String matricNumber;
+  final String emailAddress;
+  final String address;
+  final String subject;
+  final String password;
 
-  const EditProfilePage({
+  const AdminEditProfilePage({
     super.key,
     required this.name,
-    required this.className,
-    required this.matricNo,
-    required this.icNo,
+    required this.icNumber,
+    required this.matricNumber,
+    required this.emailAddress,
+    required this.address,
+    required this.subject,
+    required this.password,
   });
 
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfilePageState extends State<AdminEditProfilePage> {
   late TextEditingController nameController;
-  late TextEditingController classController;
-  late TextEditingController matricNoController;
-  late TextEditingController icNoController;
+  late TextEditingController icNumberController;
+  late TextEditingController matricNumberController;
+  late TextEditingController emailAddressController;
+  late TextEditingController addressController;
+  late TextEditingController subjectController;
+  late TextEditingController passwordController;
 
   @override
   void initState() {
     super.initState();
     nameController = TextEditingController(text: widget.name);
-    classController = TextEditingController(text: widget.className);
-    matricNoController = TextEditingController(text: widget.matricNo);
-    icNoController = TextEditingController(text: widget.icNo);
+    icNumberController = TextEditingController(text: widget.icNumber);
+    matricNumberController = TextEditingController(text: widget.matricNumber);
+    emailAddressController = TextEditingController(text: widget.emailAddress);
+    addressController = TextEditingController(text: widget.address);
+    subjectController = TextEditingController(text: widget.subject);
+    passwordController = TextEditingController(text: widget.password);
   }
 
   void _saveProfile() {
-    // Get updated profile data
     final updatedData = {
       'name': nameController.text,
-      'className': classController.text,
-      'matricNo': matricNoController.text,
-      'icNo': icNoController.text,
+      'icNumber': icNumberController.text,
+      'matricNumber': matricNumberController.text,
+      'emailAddress': emailAddressController.text,
+      'address': addressController.text,
+      'subject': subjectController.text,
+      'password': passwordController.text,
     };
 
-    // Return the updated data to ProfilePage
     Navigator.pop(context, updatedData);
   }
 
@@ -76,12 +89,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
               const SizedBox(height: 20),
               _buildTextField(controller: nameController, label: "Name"),
               const SizedBox(height: 10),
-              _buildTextField(controller: classController, label: "Class"),
+              _buildTextField(controller: icNumberController, label: "IC Number"),
               const SizedBox(height: 10),
-              _buildTextField(
-                  controller: matricNoController, label: "Matric No"),
+              _buildTextField(controller: matricNumberController, label: "Matric Number"),
               const SizedBox(height: 10),
-              _buildTextField(controller: icNoController, label: "IC No"),
+              _buildTextField(controller: emailAddressController, label: "Email Address"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: addressController, label: "Address"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: subjectController, label: "Subject"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: passwordController, label: "Password"),
               const Spacer(),
               ElevatedButton(
                 onPressed: _saveProfile,
@@ -106,8 +124,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _buildTextField(
-      {required TextEditingController controller, required String label}) {
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+  }) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(

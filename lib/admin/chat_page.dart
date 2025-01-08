@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
+import 'real_chat.dart'; // Ensure the correct import for real_chat.dart
 
 class ChatAdminPage extends StatelessWidget {
   const ChatAdminPage({super.key});
@@ -47,13 +48,17 @@ class ChatAdminPage extends StatelessWidget {
                 name: chat["name"]!,
                 studentClass: chat["class"]!,
                 onTap: () {
-                  // Handle navigation to specific chat screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatDetailPage(chat["name"]!),
-                    ),
-                  );
+                  // Debugging: Ensure this condition triggers for "Puan Siti"
+                  print('Chat tapped: ${chat["name"]}');
+                  if (chat["name"] == "Puan Siti") {
+                    // Navigate to RealChat when "Puan Siti" is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RealChat(),
+                      ),
+                    );
+                  }
                 },
               );
             },
@@ -141,34 +146,4 @@ class ChatCard extends StatelessWidget {
     );
   }
 }
-
-class ChatDetailPage extends StatelessWidget {
-  final String name;
-
-  const ChatDetailPage(this.name, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          name,
-          style:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text("Chat Details"),
-      ),
-    );
-  }
-}
+*/

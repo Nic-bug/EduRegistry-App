@@ -1,33 +1,51 @@
+import 'package:eduregistryselab/login_choice_page.dart';
 import 'package:flutter/material.dart';
 import 'edit_profile_admin.dart';
+//import 'login_choice_page.dart'; // Ensure this import exists
 
-class ProfileAdminPage extends StatefulWidget {
-  const ProfileAdminPage({super.key});
+class AdminProfilePage extends StatefulWidget {
+  const AdminProfilePage({super.key});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfileAdminPage> {
+class _ProfilePageState extends State<AdminProfilePage> {
   // Define initial values for the profile fields
   String name = "Muhammad Afiq";
-  String className = "6 Amanah";
-  String matricNo = "xxxxxx";
-  String icNo = "xxxxxxxxxxxx";
+  String icNumber = "xxxxxxxxxxxx";
+  String matricNumber = "xxxxxx";
+  String emailAddress = "afiq@example.com";
+  String address = "123 Jalan Amanah, Kuala Lumpur";
+  String subject = "Software Engineering";
+  String password = "********";
 
-  // Function to update the profile with new values
-  void _updateProfile(String updatedName, String updatedClass,
-      String updatedMatricNo, String updatedIcNo) {
+  void _updateProfile(
+    String updatedName,
+    String updatedIcNumber,
+    String updatedMatricNumber,
+    String updatedEmailAddress,
+    String updatedAddress,
+    String updatedSubject,
+    String updatedPassword,
+  ) {
     setState(() {
       name = updatedName;
-      className = updatedClass;
-      matricNo = updatedMatricNo;
-      icNo = updatedIcNo;
+      icNumber = updatedIcNumber;
+      matricNumber = updatedMatricNumber;
+      emailAddress = updatedEmailAddress;
+      address = updatedAddress;
+      subject = updatedSubject;
+      password = updatedPassword;
     });
   }
 
   void _signOut(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginChoicePage()),
+      (route) => false,
+    );
   }
 
   @override
@@ -106,29 +124,40 @@ class _ProfilePageState extends State<ProfileAdminPage> {
               ),
               const SizedBox(height: 20),
               ProfileField(label: "Name", value: name),
-              ProfileField(label: "Class", value: className),
-              ProfileField(label: "Matric No", value: matricNo),
-              ProfileField(label: "IC No", value: icNo),
+              ProfileField(label: "IC Number", value: icNumber),
+              ProfileField(label: "Matric Number", value: matricNumber),
+              ProfileField(label: "Email Address", value: emailAddress),
+              ProfileField(label: "Address", value: address),
+              ProfileField(label: "Subject", value: subject),
+              ProfileField(label: "Password", value: password),
               const Spacer(),
               ElevatedButton(
                 onPressed: () async {
-                  // Navigate to Edit Profile Page and wait for the result
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditProfilePage(
+                      builder: (context) => AdminEditProfilePage(
                         name: name,
-                        className: className,
-                        matricNo: matricNo,
-                        icNo: icNo,
+                        icNumber: icNumber,
+                        matricNumber: matricNumber,
+                        emailAddress: emailAddress,
+                        address: address,
+                        subject: subject,
+                        password: password,
                       ),
                     ),
                   );
 
-                  // If result is not null, update profile with the new values
                   if (result != null) {
-                    _updateProfile(result['name'], result['className'],
-                        result['matricNo'], result['icNo']);
+                    _updateProfile(
+                      result['name'],
+                      result['icNumber'],
+                      result['matricNumber'],
+                      result['emailAddress'],
+                      result['address'],
+                      result['subject'],
+                      result['password'],
+                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(

@@ -54,48 +54,6 @@ class NotiPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 0,
-        onTap: (index) {
-          // Handle navigation based on index
-          if (index == 0) {
-            Navigator.pushNamed(context, '/home_page'); // Navigate to HomePage
-          } else if (index == 1) {
-            Navigator.pushNamed(
-                context, '/grade_page'); // Navigate to GradePage
-          } else if (index == 2) {
-            Navigator.pushNamed(
-                context, '/notifications'); // Notifications Page
-          } else if (index == 3) {
-            Navigator.pushNamed(context, '/chat'); // Chat Page
-          } else if (index == 4) {
-            Navigator.pushNamed(context, '/profile'); // Profile Page
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.grade),
-            label: 'Grade',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notification',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
     );
   }
 }
