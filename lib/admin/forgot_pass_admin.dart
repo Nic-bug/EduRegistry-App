@@ -1,4 +1,4 @@
-import 'package:eduregistryselab/authen_page.dart';
+import 'package:eduregistryselab/admin/authen_page_admin.dart';
 import 'package:flutter/material.dart';
 
 
@@ -7,15 +7,12 @@ void main()
  {
 }
 
-class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
-
+class ForgotPasswordAdminPage extends StatefulWidget {
   @override
-  // ignore: library_private_types_in_public_api
-  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
+  _ForgotPasswordAdminPageState createState() => _ForgotPasswordAdminPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
   final TextEditingController _emailController = TextEditingController();
 
   // Function to show success dialog and navigate to VerificationPage
@@ -32,7 +29,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Navigator.of(context).pop(); // Close the dialog
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => AuthenPage()), // Navigate to VerificationPage
+                  MaterialPageRoute(builder: (context) => AuthenPageAdmin()), // Navigate to VerificationPage
                 );
               },
               child: Text("OK"),

@@ -1,6 +1,6 @@
 import 'package:eduregistryselab/admin/home_page_admin.dart';
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
+import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});

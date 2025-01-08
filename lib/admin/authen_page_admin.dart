@@ -12,14 +12,14 @@ void main() {
       ),
       home: Scaffold(
         body: ListView(children: [
-          VerificationPage(),
+          AuthenPageAdmin(),
         ]),
       ),
     );
   }
 
-class VerificationPage extends StatelessWidget {
-  const VerificationPage({super.key});
+class AuthenPageAdmin extends StatelessWidget {
+  const AuthenPageAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {
