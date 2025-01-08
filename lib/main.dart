@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Ensure this is the correct path for LoginPage
+import 'student/login_page.dart'; // Ensure this is the correct path for LoginPage
 import 'splash_screen.dart'; // Ensure this is the correct path for SplashScreen
 import 'package:eduregistryselab/home_page.dart'; // Ensure this is the correct path for HomePage
 import 'package:eduregistryselab/student/grade_page.dart'; // Ensure this is the correct path for GradePage
 import 'package:eduregistryselab/student/notifications.dart';
-import 'package:eduregistryselab/forgot_pass_page.dart';
+import 'package:eduregistryselab/student/forgot_pass_page.dart';
 import 'package:eduregistryselab/student/chat.dart';
 import 'package:eduregistryselab/student/profile.dart';
 import 'package:eduregistryselab/student/appointment.dart'; // Import AppointmentPage

@@ -16,14 +16,7 @@ class HomePageAdmin extends StatelessWidget {
           'HI, TEACHER',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.black),
-            onPressed: () {
-              // Handle notifications here
-            },
-          ),
-        ],
+        
       ),
       body: SafeArea(
         child: SingleChildScrollView(

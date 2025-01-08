@@ -1,4 +1,4 @@
-import 'package:eduregistryselab/admin/new_password_admin.dart';
+import 'package:eduregistryselab/student/new_password_student.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,13 +15,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: const Color(0xFFFFF8F5),
       ),
-      home: const AuthenPage(),
+      home: const AuthenPagestudent(),
     );
   }
 }
 
-class AuthenPage extends StatelessWidget {
-  const AuthenPage({super.key});
+class AuthenPagestudent extends StatelessWidget {
+  const AuthenPagestudent({super.key});
 
   void _verify(BuildContext context) {
     // Show a SnackBar as a popup message
@@ -40,11 +40,11 @@ class AuthenPage extends StatelessWidget {
       ),
     );
 
-    // Navigate to NewPasswordAdmin after 3 seconds
+    // Navigate to NewPasswordstudent after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const NewPasswordAdmin()),
+        MaterialPageRoute(builder: (context) => const NewPassword()),
       );
     });
   }
@@ -128,7 +128,9 @@ class AuthenPage extends StatelessWidget {
                           const SizedBox(height: 20),
                           TextField(
                             keyboardType: TextInputType.number,
-                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -139,14 +141,16 @@ class AuthenPage extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey,
                               ),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 15),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide.none,
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.transparent),
+                                borderSide:
+                                    const BorderSide(color: Colors.transparent),
                               ),
                             ),
                           ),
@@ -214,4 +218,3 @@ class AuthenPage extends StatelessWidget {
     );
   }
 }
-
