@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({super.key});
+class NotiPage extends StatelessWidget {
+  const NotiPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,31 +24,31 @@ class NotificationsPage extends StatelessWidget {
               const SectionHeader(title: "Today"),
               NotificationCard(
                 icon: Icons.category,
-                title: "New Category Course.!",
-                description: "New the 3D Design Course is Available.",
+                title: "New Student has been added!",
+                description: "Rachel Awind Anak Awi",
                 isHighlighted: true,
               ),
               NotificationCard(
                 icon: Icons.category_outlined,
-                title: "New Category Course.!",
-                description: "New the 3D Design Course is Available.",
+                title: "Merit has been added!",
+                description: "Danny Chong.",
               ),
               NotificationCard(
                 icon: Icons.local_offer,
-                title: "Today's Special Offers",
-                description: "You have made a course payment.",
+                title: "Merit has been added!",
+                description: "Liu Xin Xin",
               ),
               const SectionHeader(title: "Yesterday"),
               NotificationCard(
                 icon: Icons.credit_card,
-                title: "Credit Card Connected.!",
-                description: "Credit card has been linked.",
+                title: "New student has been added!",
+                description: "Christopher Anak Ngau",
               ),
               const SectionHeader(title: "Nov 20, 2022"),
               NotificationCard(
                 icon: Icons.account_circle,
-                title: "Account Setup Successful.!",
-                description: "Your account has been created.",
+                title: "Merit has been added!",
+                description: "Daniel Hamidi bin Abu",
               ),
             ],
           ),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'chart_page.dart';  // Import the ChartAdminPage
+import 'chat_page.dart';   // Import the ChatAdminPage
+import 'profile_page.dart'; // Import the ProfileAdminPage
+import 'noti_page.dart'; // Import the NotificationAdminPage
 
 class HomePageAdmin extends StatelessWidget {
   const HomePageAdmin({super.key});
@@ -16,7 +20,6 @@ class HomePageAdmin extends StatelessWidget {
           'HI, TEACHER',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -33,33 +36,42 @@ class HomePageAdmin extends StatelessWidget {
                 // Featured Card with increased width
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9, // Make card wider
-                  child: Card(
-                    color: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'WEEK 7',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the ChartPage when tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ChartPage()),
+                      );
+                    },
+                    child: Card(
+                      color: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Dashboard',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Track Student progress Today.',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
+                            SizedBox(height: 10),
+                            Text(
+                              'Track Student progress Today.',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -191,15 +203,25 @@ class HomePageAdmin extends StatelessWidget {
           if (index == 0) {
             Navigator.pushNamed(context, '/main'); // Navigate to HomePage
           } else if (index == 1) {
-            Navigator.pushNamed(
-                context, '/grade_page'); // Navigate to GradePage
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ChartPage()), // Navigate to ChartPage
+            );
           } else if (index == 2) {
-            Navigator.pushNamed(
-                context, '/notifications'); // Notifications Page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NotiPage()), // Navigate to NotificationAdminPage
+            );
           } else if (index == 3) {
-            Navigator.pushNamed(context, '/chat'); // Chat Page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ChatAdminPage()), // Navigate to ChatAdminPage
+            );
           } else if (index == 4) {
-            Navigator.pushNamed(context, '/profile'); // Profile Page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfileAdminPage()), // Navigate to ProfileAdminPage
+            );
           }
         },
         items: const [

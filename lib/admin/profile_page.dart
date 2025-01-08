@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'edit_profile_admin.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ProfileAdminPage extends StatefulWidget {
+  const ProfileAdminPage({super.key});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfileAdminPage> {
   // Define initial values for the profile fields
   String name = "Muhammad Afiq";
   String className = "6 Amanah";

@@ -7,58 +7,34 @@ class ChartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F5),
-      body: SingleChildScrollView(
-        child: Column(
+      body: SafeArea(
+        child: Stack(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 150,
-                    right: 0,
-                    child: Center(
-                      child: Column(
-                        children: const [
-                          Text(
-                            'Admin Dashboard',
-                            style: TextStyle(
-                              color: Color(0xFF332DA1),
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            'Track Data Insights',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 56,
-                    top: 220,
-                    child: const Text(
-                      'Performance Data by Class',
+            Column(
+              children: [
+                // Header with background color
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  color: const Color(0xFF0961F5), // Updated header color
+                  child: const Center(
+                    child: Text(
+                      'Class vs Students',
                       style: TextStyle(
-                        color: Color(0xFF545454),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 45,
-                    top: 260,
+                ),
+                const SizedBox(height: 16),
+                // Chart Container
+                Expanded(
+                  child: Center(
                     child: Container(
-                      width: 330,
-                      height: 300,
+                      width: 350,
+                      height: 400,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -70,21 +46,63 @@ class ChartPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Center(
-                          child: Text(
-                            'Bar Chart Placeholder',
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Text(
+                            'Number of Students per Class',
                             style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey[600],
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF545454),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // Dummy Bar for Class A
+                                _buildBar('A', 50, Colors.blue),
+                                // Dummy Bar for Class B
+                                _buildBar('B', 70, Colors.red),
+                                // Dummy Bar for Class C
+                                _buildBar('C', 30, Colors.green),
+                                // Dummy Bar for Class D
+                                _buildBar('D', 60, Colors.orange),
+                                // Dummy Bar for Class E
+                                _buildBar('E', 40, Colors.purple),
+                              ],
                             ),
                           ),
-                        ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Classes',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF545454),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+            // Back Button at the top-left corner
+            Positioned(
+              top: 10,
+              left: 16,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
           ],
@@ -92,4 +110,32 @@ class ChartPage extends StatelessWidget {
       ),
     );
   }
+
+  // Helper function to build a dummy bar
+  Widget _buildBar(String label, double height, Color color) {
+    return Column(
+      children: [
+        Container(
+          height: height, // Simulating the height of the bar
+          width: 30,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Color(0xFF545454),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+void main() {
+  runApp(const MaterialApp(home: ChartPage()));
 }
