@@ -193,22 +193,25 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                     ),
                   ),
                   Positioned(
+                    left: 45,
                     right: 45,
                     top: 510,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgotPasswordAdminPage(),
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPasswordAdminPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Color(0xFF0961F5),
+                            fontSize: 14,
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: Color(0xFF0961F5),
-                          fontSize: 14,
                         ),
                       ),
                     ),

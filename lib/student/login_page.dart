@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
 import 'package:eduregistryselab/home_page_superadmin.dart' as user_home;
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
-import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,8 +18,6 @@ class LoginPageState extends State<LoginPage> {
   final String correctPassword = '1';
   final String adminMatric = 'admin';
   final String adminPassword = 'admin123';
-  final String superAdminMatric = 'superadmin';
-  final String superAdminPassword = 'superadmin123';
 
   bool _isButtonDisabled = false;
 
@@ -47,12 +44,6 @@ class LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
             builder: (context) => const teacher_home.HomePageAdmin()),
-      );
-    } else if (enteredMatric == superAdminMatric &&
-        enteredPassword == superAdminPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => admin_home.SuperAdminPage()),
       );
     } else {
       showDialog(
@@ -233,10 +224,10 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ),
 
-                  // Forgot Password Button
+                  // Forgot Password Button (Moved below password field)
                   Positioned(
                     left: 0,
-                    top: 635,
+                    top: 518, // Position adjusted to appear below the password field
                     right: 0,
                     child: Center(
                       child: TextButton(

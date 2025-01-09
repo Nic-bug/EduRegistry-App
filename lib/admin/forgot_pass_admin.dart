@@ -1,6 +1,6 @@
 import 'package:eduregistryselab/admin/authen_page_admin.dart';
 import 'package:flutter/material.dart';
-import 'admin_signup_page.dart';  // Ensure AdminSignupPage is imported
+//import 'admin_signup_page.dart';  // Ensure AdminSignupPage is imported
 import 'admin_login_page.dart';  // Make sure to import your AdminLoginPage here
 
 void main() {
@@ -45,7 +45,6 @@ class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -106,67 +105,6 @@ class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
                 ),
                 Positioned(
                   left: 136,
-                  top: 569,
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the AdminSignupPage when clicked
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AdminSignupPage()),
-                      );
-                    },
-                    child: Container(
-                      width: 155,
-                      height: 46,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Container(
-                              width: 155,
-                              height: 46,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFF5740),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                shadows: [
-                                  BoxShadow(
-                                    color: Color(0x4C000000),
-                                    blurRadius: 8,
-                                    offset: Offset(1, 2),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            top: 12,
-                            child: SizedBox(
-                              width: 155,
-                              child: Text(
-                                'Sign Up',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'Jost',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 136,
                   top: 329,
                   child: Text(
                     'Enter Email Address',
@@ -179,20 +117,7 @@ class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
                     ),
                   ),
                 ),
-                Positioned(
-                  left: (screenWidth - 185) / 2, // Centered horizontally
-                  top: 529,
-                  child: Text(
-                    'Do you have an account?',
-                    style: TextStyle(
-                      color: Color(0xFF545454),
-                      fontSize: 16,
-                      fontFamily: 'Mulish',
-                      fontWeight: FontWeight.w700,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
+               
                 Positioned(
                   left: 166,
                   top: 419,
