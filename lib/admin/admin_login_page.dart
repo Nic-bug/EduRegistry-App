@@ -1,4 +1,5 @@
 import 'package:eduregistryselab/admin/home_page_admin.dart';
+import 'package:eduregistryselab/superadmin/superadmin.dart'; // Import the HomePageSuperadmin
 import 'package:flutter/material.dart';
 import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
 
@@ -13,10 +14,10 @@ class AdminLoginPageState extends State<AdminLoginPage> {
   final TextEditingController _matricController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final String correctMatric = '1'; // User credentials (just for reference)
-  final String correctPassword = '1'; // User credentials (just for reference)
   final String adminMatric = '2'; // Staff credentials
   final String staffPassword = '2'; // Staff credentials
+  final String superadminUsername = 'admin123'; // Superadmin username
+  final String superadminPassword = '123123'; // Superadmin password
 
   bool _isButtonDisabled = false;
 
@@ -32,11 +33,11 @@ class AdminLoginPageState extends State<AdminLoginPage> {
 
     if (!mounted) return;
 
-    // Check if user credentials are correct
-    if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
+    // Check if superadmin credentials are correct
+    if (enteredMatric == superadminUsername && enteredPassword == superadminPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomePageAdmin()),
+        MaterialPageRoute(builder: (context) => SuperAdminPage()), // Navigate to HomePageSuperadmin
       );
     }
     // Check if staff credentials are correct
