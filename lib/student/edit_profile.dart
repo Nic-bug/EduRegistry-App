@@ -5,6 +5,8 @@ class EditProfilePage extends StatefulWidget {
   final String className;
   final String matricNo;
   final String icNo;
+  final String phone;
+  final String address;
 
   const EditProfilePage({
     super.key,
@@ -12,6 +14,8 @@ class EditProfilePage extends StatefulWidget {
     required this.className,
     required this.matricNo,
     required this.icNo,
+    required this.phone,
+    required this.address,
   });
 
   @override
@@ -23,6 +27,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController classController;
   late TextEditingController matricNoController;
   late TextEditingController icNoController;
+  late TextEditingController phoneNoController;
+  late TextEditingController addressController;
 
   @override
   void initState() {
@@ -31,6 +37,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     classController = TextEditingController(text: widget.className);
     matricNoController = TextEditingController(text: widget.matricNo);
     icNoController = TextEditingController(text: widget.icNo);
+    phoneNoController = TextEditingController(text: widget.phone);
+    addressController = TextEditingController(text: widget.address);
   }
 
   void _saveProfile() {
@@ -40,6 +48,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       'className': classController.text,
       'matricNo': matricNoController.text,
       'icNo': icNoController.text,
+      'phone': phoneNoController.text,
+      'address': addressController.text,
     };
 
     // Return the updated data to ProfilePage
@@ -82,6 +92,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   controller: matricNoController, label: "Matric No"),
               const SizedBox(height: 10),
               _buildTextField(controller: icNoController, label: "IC No"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: phoneNoController, label: "Phone No"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: addressController, label: "Address"),
               const Spacer(),
               ElevatedButton(
                 onPressed: _saveProfile,

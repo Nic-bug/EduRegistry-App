@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduregistryselab/student/profile.dart';
+import 'package:eduregistryselab/student/appointment.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final String userDocId; // Add this line
+
+  // Modify constructor to accept userDocId
+  const HomePage({super.key, required this.userDocId});
+
+  Future<Map<String, dynamic>> _fetchUserData() async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userDocId)
+          .get();
+
+      if (docSnapshot.exists) {
+        return docSnapshot.data()!;
+      } else {
+        throw Exception("User document not found.");
+      }
+    } catch (e) {
+      throw Exception("Error fetching user data: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +37,7 @@ class HomePage extends StatelessWidget {
         centerTitle: false,
         automaticallyImplyLeading: false, // Hides the back button
         title: const Text(
-          'Hi, STUDENT',
+          'Hi, Student',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -181,8 +205,7 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
-        onTap: (index) {
-          // Handle navigation based on index
+        onTap: (index) async {
           if (index == 0) {
             Navigator.pushNamed(context, '/main'); // Navigate to HomePage
           } else if (index == 1) {
@@ -194,7 +217,21 @@ class HomePage extends StatelessWidget {
           } else if (index == 3) {
             Navigator.pushNamed(context, '/chat'); // Chat Page
           } else if (index == 4) {
-            Navigator.pushNamed(context, '/profile'); // Profile Page
+            // Retrieve userDocId from SharedPreferences or another method
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            String? userDocId = prefs
+                .getString('userDocId'); // Assuming the userDocId is saved here
+            if (userDocId != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(userDocId: userDocId),
+                ),
+              );
+            } else {
+              // Handle case where userDocId is not found
+              print('UserDocId is null');
+            }
           }
         },
         items: const [

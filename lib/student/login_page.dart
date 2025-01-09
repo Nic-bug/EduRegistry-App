@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
-import 'package:eduregistryselab/home_page_superadmin.dart' as user_home;
+import 'package:eduregistryselab/home_page_superadmin.dart'
+    as user_home; // Example for student home page
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
 import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import this package
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,70 +22,85 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController _matricController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final String correctMatric = '1';
-  final String correctPassword = '1';
-  final String adminMatric = 'admin';
-  final String adminPassword = 'admin123';
-  final String superAdminMatric = 'superadmin';
-  final String superAdminPassword = 'superadmin123';
-
   bool _isButtonDisabled = false;
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _login() async {
     final enteredMatric = _matricController.text.trim();
     final enteredPassword = _passwordController.text.trim();
 
+    if (enteredMatric.isEmpty || enteredPassword.isEmpty) {
+      _showErrorDialog('Fields cannot be empty.');
+      return;
+    }
+
     setState(() {
       _isButtonDisabled = true;
     });
 
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final QuerySnapshot query = await _firestore
+          .collection('users')
+          .where('Matric No', isEqualTo: enteredMatric)
+          .where('Password', isEqualTo: enteredPassword)
+          .get();
 
-    if (!mounted) return;
+      if (query.docs.isNotEmpty) {
+        final user = query.docs.first.data() as Map<String, dynamic>;
+        final String role = user['Role'] ?? '';
+        final String userDocId = query.docs.first.id; // Get document ID
 
-    if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const user_home.HomePage()),
-      );
-    } else if (enteredMatric == adminMatric &&
-        enteredPassword == adminPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const teacher_home.HomePageAdmin()),
-      );
-    } else if (enteredMatric == superAdminMatric &&
-        enteredPassword == superAdminPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => admin_home.SuperAdminPage()),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Incorrect Credentials'),
-            content: const Text(
-                'The matric number or password you entered is incorrect. Please try again.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    _isButtonDisabled = false;
-                    _matricController.clear();
-                    _passwordController.clear();
-                  });
-                },
-                child: const Text('OK'),
-              ),
-            ],
+        // Save matric number to SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('matric', enteredMatric);
+        await prefs.setString('role', role);
+        await prefs.setString('userDocId', userDocId); // Save document ID
+
+        if (role == 'Student') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => user_home.HomePage(
+                      userDocId: userDocId, // Pass userDocId to HomePage
+                    )),
           );
-        },
-      );
+        } else {
+          _showErrorDialog(
+              'You are a teacher. Please login in the teacher login page.');
+        }
+      } else {
+        _showErrorDialog('Incorrect matric number or password.');
+      }
+    } catch (e) {
+      _showErrorDialog('An error occurred: $e');
+    } finally {
+      setState(() {
+        _isButtonDisabled = false;
+      });
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Login Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _matricController.clear();
+                _passwordController.clear();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -92,7 +114,6 @@ class LoginPageState extends State<LoginPage> {
               height: MediaQuery.of(context).size.height,
               child: Stack(
                 children: [
-                  // App Title
                   Positioned(
                     left: 0,
                     top: 150,

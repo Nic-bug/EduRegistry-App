@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 import 'edit_profile.dart';
+import 'package:eduregistryselab/login_choice_page.dart';
+import 'package:eduregistryselab/student/home_page.dart' as user_home;
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String userDocId; // Add this parameter
+
+  const ProfilePage({super.key, required this.userDocId}); // Modify constructor
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -10,24 +16,58 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // Define initial values for the profile fields
-  String name = "Muhammad Afiq";
-  String className = "6 Amanah";
-  String matricNo = "xxxxxx";
-  String icNo = "xxxxxxxxxxxx";
+  String name = "Loading...";
+  String className = "Loading...";
+  String matricNo = "Loading...";
+  String icNo = "Loading...";
+  String phone = "Loading...";
+  String address = "Loading...";
 
-  // Function to update the profile with new values
-  void _updateProfile(String updatedName, String updatedClass,
-      String updatedMatricNo, String updatedIcNo) {
-    setState(() {
-      name = updatedName;
-      className = updatedClass;
-      matricNo = updatedMatricNo;
-      icNo = updatedIcNo;
-    });
+  // Fetch user data from Firestore using userDocId
+  Future<void> _fetchUserData() async {
+    String id = widget.userDocId; // Use the userDocId passed to ProfilePage
+    print("Retrieved userDocId: $id"); // Debugging
+
+    if (id.isNotEmpty) {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      try {
+        // Fetch user document from Firestore using userDocId
+        DocumentSnapshot userDoc =
+            await firestore.collection('users').doc(id).get();
+
+        if (userDoc.exists) {
+          setState(() {
+            name = userDoc['Name'] ?? "N/A";
+            className = userDoc['Class'] ?? "N/A";
+            matricNo = userDoc['Matric No'] ?? "N/A";
+            icNo = userDoc['IC No'] ?? "N/A";
+            phone = userDoc['No. Phone'] ?? "N/A";
+            address = userDoc['Address'] ?? "N/A";
+          });
+        } else {
+          print("User document does not exist.");
+        }
+      } catch (e) {
+        print("Error fetching user data: $e");
+      }
+    }
   }
 
-  void _signOut(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+  // Clear session and navigate to login
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginChoicePage()),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData(); // Fetch user data when the page loads
   }
 
   @override
@@ -48,14 +88,19 @@ class _ProfilePageState extends State<ProfilePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      user_home.HomePage(userDocId: widget.userDocId)),
+            );
           },
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: TextButton(
-              onPressed: () => _signOut(context),
+              onPressed: _logout, // Updated to use _logout function
               child: const Text(
                 "Sign Out",
                 style: TextStyle(
@@ -109,6 +154,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ProfileField(label: "Class", value: className),
               ProfileField(label: "Matric No", value: matricNo),
               ProfileField(label: "IC No", value: icNo),
+              ProfileField(label: "Phone", value: phone),
+              ProfileField(label: "Address", value: address),
               const Spacer(),
               ElevatedButton(
                 onPressed: () async {
@@ -121,14 +168,22 @@ class _ProfilePageState extends State<ProfilePage> {
                         className: className,
                         matricNo: matricNo,
                         icNo: icNo,
+                        phone: phone,
+                        address: address,
                       ),
                     ),
                   );
 
                   // If result is not null, update profile with the new values
                   if (result != null) {
-                    _updateProfile(result['name'], result['className'],
-                        result['matricNo'], result['icNo']);
+                    setState(() {
+                      name = result['name'];
+                      className = result['className'];
+                      matricNo = result['matricNo'];
+                      icNo = result['icNo'];
+                      phone = result['phone'];
+                      address = result['address'];
+                    });
                   }
                 },
                 style: ElevatedButton.styleFrom(

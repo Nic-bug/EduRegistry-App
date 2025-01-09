@@ -1,6 +1,10 @@
-import 'package:eduregistryselab/admin/home_page_admin.dart';
+import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
+import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+// import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import this package
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});
@@ -13,65 +17,85 @@ class AdminLoginPageState extends State<AdminLoginPage> {
   final TextEditingController _matricController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final String correctMatric = '1'; // User credentials (just for reference)
-  final String correctPassword = '1'; // User credentials (just for reference)
-  final String adminMatric = '2'; // Staff credentials
-  final String staffPassword = '2'; // Staff credentials
-
   bool _isButtonDisabled = false;
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _login() async {
     final enteredMatric = _matricController.text.trim();
     final enteredPassword = _passwordController.text.trim();
 
+    if (enteredMatric.isEmpty || enteredPassword.isEmpty) {
+      _showErrorDialog('Fields cannot be empty.');
+      return;
+    }
+
     setState(() {
       _isButtonDisabled = true;
     });
 
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final QuerySnapshot query = await _firestore
+          .collection('users')
+          .where('Matric No', isEqualTo: enteredMatric)
+          .where('Password', isEqualTo: enteredPassword)
+          .get();
 
-    if (!mounted) return;
+      if (query.docs.isNotEmpty) {
+        final user = query.docs.first.data() as Map<String, dynamic>;
+        final String role = user['Role'] ?? '';
+        final String userDocId = query.docs.first.id; // Get document ID
 
-    // Check if user credentials are correct
-    if (enteredMatric == correctMatric && enteredPassword == correctPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePageAdmin()),
-      );
-    }
-    // Check if staff credentials are correct
-    else if (enteredMatric == adminMatric && enteredPassword == staffPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePageAdmin()),
-      );
-    }
-    // If credentials are incorrect
-    else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Incorrect Credentials'),
-            content: const Text(
-                'The matric number or password you entered is incorrect. Please try again.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    _isButtonDisabled = false;
-                    _matricController.clear();
-                    _passwordController.clear();
-                  });
-                },
-                child: const Text('OK'),
-              ),
-            ],
+        // Save matric number to SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('matric', enteredMatric);
+        await prefs.setString('role', role);
+        await prefs.setString('userDocId', userDocId); // Save document ID
+
+        if (role == 'Admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => teacher_home.HomePageAdmin(
+                      userDocId: userDocId, // Pass userDocId to HomePage
+                    )),
           );
-        },
-      );
+        } else {
+          _showErrorDialog(
+              'You are a student. Please login in the student login page.');
+        }
+      } else {
+        _showErrorDialog('Incorrect matric number or password.');
+      }
+    } catch (e) {
+      _showErrorDialog('An error occurred: $e');
+    } finally {
+      setState(() {
+        _isButtonDisabled = false;
+      });
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Login Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _matricController.clear();
+                _passwordController.clear();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -112,6 +136,8 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                     ),
                   ),
+
+                  // Matric Field
                   Positioned(
                     left: 56,
                     top: 329,
@@ -151,6 +177,8 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                     ),
                   ),
+
+                  // Password Field
                   Positioned(
                     left: 56,
                     top: 427,
@@ -191,27 +219,8 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    right: 45,
-                    top: 510,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgotPasswordAdminPage(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: Color(0xFF0961F5),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
+
+                  // Sign In Button
                   Positioned(
                     left: 45,
                     top: 579,
@@ -233,6 +242,32 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Forgot Password Button
+                  Positioned(
+                    left: 0,
+                    top: 635,
+                    right: 0,
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPasswordPage()),
+                          );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Color(0xFF0961F5),
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

@@ -5,10 +5,33 @@ import 'real_chat.dart'; // Import the ChatAdminPage
 import 'profile_page.dart'; // Import the ProfileAdminPage
 import 'noti_page.dart'; // Import the NotificationAdminPage
 import 'add_merit.dart'; // Import the AddMerit page
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import this package
+
 //import 'grade_page.dart'; // Import the GradePage
 
 class HomePageAdmin extends StatefulWidget {
-  const HomePageAdmin({super.key});
+  final String userDocId; // Add this line
+
+  // Modify constructor to accept userDocId
+  const HomePageAdmin({super.key, required this.userDocId});
+
+  Future<Map<String, dynamic>> _fetchUserData() async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userDocId)
+          .get();
+
+      if (docSnapshot.exists) {
+        return docSnapshot.data()!;
+      } else {
+        throw Exception("User document not found.");
+      }
+    } catch (e) {
+      throw Exception("Error fetching user data: $e");
+    }
+  }
 
   @override
   State<HomePageAdmin> createState() => _HomePageAdminState();
@@ -150,7 +173,8 @@ class HomeContent extends StatelessWidget {
                       // Navigate to AddMerit page when clicked
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AddMerit()),
+                        MaterialPageRoute(
+                            builder: (context) => const AddMerit()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -224,7 +248,8 @@ class HomeContent extends StatelessWidget {
                         // Navigate to the GradePage when tapped
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const GradePage()),
+                          MaterialPageRoute(
+                              builder: (context) => const GradePage()),
                         );
                       },
                       child: Chip(

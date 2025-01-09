@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final String userDocId;
+
+  const HomePage({super.key, required this.userDocId});
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +14,12 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         automaticallyImplyLeading: false, // Hides the back button
-        title: const Text(
-          'Hi, STUDENT',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: Text(
+          'Hi, $userDocId', // Use userDocId to personalize the title
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           IconButton(
@@ -75,7 +80,6 @@ class HomePage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Navigate to the Merit System Page
                         Navigator.pushNamed(context, '/grade_page');
                       },
                       style: ElevatedButton.styleFrom(
@@ -92,7 +96,6 @@ class HomePage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigate to the Appointment Page
                         Navigator.pushNamed(context, '/appointment');
                       },
                       style: ElevatedButton.styleFrom(
@@ -182,19 +185,16 @@ class HomePage extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
         onTap: (index) {
-          // Handle navigation based on index
           if (index == 0) {
-            Navigator.pushNamed(context, '/main'); // Navigate to HomePage
+            Navigator.pushNamed(context, '/main');
           } else if (index == 1) {
-            Navigator.pushNamed(
-                context, '/grade_page'); // Navigate to GradePage
+            Navigator.pushNamed(context, '/grade_page');
           } else if (index == 2) {
-            Navigator.pushNamed(
-                context, '/notifications'); // Notifications Page
+            Navigator.pushNamed(context, '/notifications');
           } else if (index == 3) {
-            Navigator.pushNamed(context, '/chat'); // Chat Page
+            Navigator.pushNamed(context, '/chat');
           } else if (index == 4) {
-            Navigator.pushNamed(context, '/profile'); // Profile Page
+            Navigator.pushNamed(context, '/profile');
           }
         },
         items: const [

@@ -18,6 +18,7 @@ dependencies:
   intl: ^0.18.0 # Add the intl package for date formatting
   fl_chart: ^0.40.0 # Correct placement of the fl_chart dependency
   image_picker: ^0.8.6 # Added image_picker dependency for profile image feature
+  shared_preferences: ^2.3.5
 
 dev_dependencies:
   flutter_test:
