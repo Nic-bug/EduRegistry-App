@@ -1,7 +1,6 @@
 import 'package:eduregistryselab/login_choice_page.dart';
 import 'package:flutter/material.dart';
 import 'edit_profile_admin.dart';
-//import 'login_choice_page.dart'; // Ensure this import exists
 
 class AdminProfilePage extends StatefulWidget {
   const AdminProfilePage({super.key});
@@ -88,93 +87,95 @@ class _ProfilePageState extends State<AdminProfilePage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Stack(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.blue,
-                    child: CircleAvatar(
-                      radius: 48,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 60,
-                        color: Colors.black54,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20),
+                Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.blue,
+                      child: CircleAvatar(
+                        radius: 48,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          size: 60,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.camera_alt,
-                        size: 16,
-                        color: Colors.blue,
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: CircleAvatar(
+                        radius: 16,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ProfileField(label: "Name", value: name),
-              ProfileField(label: "IC Number", value: icNumber),
-              ProfileField(label: "Matric Number", value: matricNumber),
-              ProfileField(label: "Email Address", value: emailAddress),
-              ProfileField(label: "Address", value: address),
-              ProfileField(label: "Subject", value: subject),
-              ProfileField(label: "Password", value: password),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AdminEditProfilePage(
-                        name: name,
-                        icNumber: icNumber,
-                        matricNumber: matricNumber,
-                        emailAddress: emailAddress,
-                        address: address,
-                        subject: subject,
-                        password: password,
+                  ],
+                ),
+                const SizedBox(height: 20),
+                ProfileField(label: "Name", value: name),
+                ProfileField(label: "IC Number", value: icNumber),
+                ProfileField(label: "Matric Number", value: matricNumber),
+                ProfileField(label: "Email Address", value: emailAddress),
+                ProfileField(label: "Address", value: address),
+                ProfileField(label: "Subject", value: subject),
+                ProfileField(label: "Password", value: password),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AdminEditProfilePage(
+                          name: name,
+                          icNumber: icNumber,
+                          matricNumber: matricNumber,
+                          emailAddress: emailAddress,
+                          address: address,
+                          subject: subject,
+                          password: password,
+                        ),
                       ),
-                    ),
-                  );
-
-                  if (result != null) {
-                    _updateProfile(
-                      result['name'],
-                      result['icNumber'],
-                      result['matricNumber'],
-                      result['emailAddress'],
-                      result['address'],
-                      result['subject'],
-                      result['password'],
                     );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+
+                    if (result != null) {
+                      _updateProfile(
+                        result['name'],
+                        result['icNumber'],
+                        result['matricNumber'],
+                        result['emailAddress'],
+                        result['address'],
+                        result['subject'],
+                        result['password'],
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16.0, horizontal: 64.0),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16.0, horizontal: 64.0),
+                  child: const Text(
+                    "Edit Profile",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
-                child: const Text(
-                  "Edit Profile",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
