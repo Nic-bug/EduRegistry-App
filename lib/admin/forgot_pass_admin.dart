@@ -1,7 +1,6 @@
-import 'package:eduregistryselab/admin/authen_page_admin.dart';
 import 'package:flutter/material.dart';
-//import 'admin_signup_page.dart';  // Ensure AdminSignupPage is imported
-import 'admin_login_page.dart';  // Make sure to import your AdminLoginPage here
+import 'admin_login_page.dart'; // Ensure this is correctly imported
+import 'package:eduregistryselab/admin/authen_page_admin.dart';
 
 void main() {
   runApp(MaterialApp(home: ForgotPasswordAdminPage()));
@@ -11,7 +10,6 @@ class ForgotPasswordAdminPage extends StatefulWidget {
   const ForgotPasswordAdminPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _ForgotPasswordAdminPageState createState() => _ForgotPasswordAdminPageState();
 }
 
@@ -24,7 +22,7 @@ class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Success"),
+          title: const Text("Success"),
           content: Text("A code has been sent to ${_emailController.text}"),
           actions: <Widget>[
             TextButton(
@@ -35,7 +33,7 @@ class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
                   MaterialPageRoute(builder: (context) => AuthenPageAdmin()), // Navigate to VerificationPage
                 );
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );
@@ -45,272 +43,168 @@ class _ForgotPasswordAdminPageState extends State<ForgotPasswordAdminPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Forgot Password'),
+        title: const Text('Forgot Password'),
       ),
-      body: ListView(
-        children: [
-          Container(
-            width: 428,
-            height: 911,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(color: Color(0xFFFFF8F5)),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 21,
-                  top: 247,
-                  child: Opacity(
-                    opacity: 0.30,
-                    child: Container(
-                      width: 370,
-                      height: 401,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFDBDBDB),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        shadows: [
+      body: SingleChildScrollView(
+        child: Container(
+          width: screenWidth,
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          color: const Color(0xFFFFF8F5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 100),
+              const Text(
+                'EduRegistry',
+                style: TextStyle(
+                  color: Color(0xFF332DA1),
+                  fontSize: 24,
+                  fontFamily: 'Jost',
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                'LEARN FROM HOME',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 11,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 50),
+              // "Forgot Password" Box with Beige Color Style
+              Container(
+                width: screenWidth * 0.8, // Width of the box
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,  // Beige color for the background
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Forgot Password',
+                      style: TextStyle(
+                        color: Color(0xFF202244),
+                        fontSize: 23,
+                        fontFamily: 'Jost',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Enter Email Address',
+                      style: TextStyle(
+                        color: Color(0xFF545454),
+                        fontSize: 16,
+                        fontFamily: 'Mulish',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
                           BoxShadow(
-                            color: Color(0x26000000),
-                            blurRadius: 4,
-                            offset: Offset(-4, 4),
-                            spreadRadius: 0,
-                          ),
-                          BoxShadow(
-                            color: Color(0x26000000),
-                            blurRadius: 4,
-                            offset: Offset(4, 4),
-                            spreadRadius: 0,
-                          ),
-                          BoxShadow(
-                            color: Color(0x26000000),
-                            blurRadius: 4,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                          BoxShadow(
-                            color: Color(0x26000000),
-                            blurRadius: 4,
-                            offset: Offset(0, -4),
-                            spreadRadius: 0,
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter your email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Positioned(
-                  left: 136,
-                  top: 329,
-                  child: Text(
-                    'Enter Email Address',
-                    style: TextStyle(
-                      color: Color(0xFF545454),
-                      fontSize: 16,
-                      fontFamily: 'Mulish',
-                      fontWeight: FontWeight.w700,
-                      decoration: TextDecoration.none,
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        if (_emailController.text.isNotEmpty) {
+                          _showSuccessDialog();
+                        } else {
+                          // Show an error message if the email is empty
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please enter your email')),
+                          );
+                        }
+                      },
+                      child: Container(
+                        width: screenWidth * 0.5,
+                        height: 46,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0961F5),
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0x4C000000),
+                              blurRadius: 8,
+                              offset: const Offset(1, 2),
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Send',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: 'Jost',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-               
-                Positioned(
-                  left: 166,
-                  top: 419,
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the AdminLoginPage when clicked
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => AdminLoginPage()),
-                      );
-                    },
-                    child: Opacity(
-                      opacity: 0.50,
-                      child: Text(
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => AdminLoginPage()),
+                        );
+                      },
+                      child: const Text(
                         'Back to Sign In',
                         style: TextStyle(
                           color: Color(0xFF0961F5),
                           fontSize: 13,
                           fontFamily: 'Mulish',
                           fontWeight: FontWeight.w700,
-                          decoration: TextDecoration.none,
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                Positioned(
-                  left: 45,
-                  top: 365,
-                  child: Container(
-                    width: 330,
-                    height: 46,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 330,
-                            height: 46,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              shadows: [
-                                BoxShadow(
-                                  color: Color(0x19000000),
-                                  blurRadius: 10,
-                                  offset: Offset(0, 2),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: TextField(
-                              controller: _emailController,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your email',
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 136,
-                  top: 445,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (_emailController.text.isNotEmpty) {
-                        _showSuccessDialog();
-                      } else {
-                        // You can show an error dialog or toast if email is empty
-                      }
-                    },
-                    child: Container(
-                      width: 155,
-                      height: 46,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Container(
-                              width: 155,
-                              height: 46,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFF0961F5),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                shadows: [
-                                  BoxShadow(
-                                    color: Color(0x4C000000),
-                                    blurRadius: 8,
-                                    offset: Offset(1, 2),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            top: 12,
-                            child: SizedBox(
-                              width: 155,
-                              child: Text(
-                                'Send',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'Jost',
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 128,
-                  top: 260,
-                  child: Text(
-                    'Forgot Password',
-                    style: TextStyle(
-                      color: Color(0xFF202244),
-                      fontSize: 23,
-                      fontFamily: 'Jost',
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 182,
-                  top: 116,
-                  child: Container(
-                    width: 154,
-                    height: 52,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 35,
-                          child: SizedBox(
-                            width: 154,
-                            child: Text(
-                              'LEARN FROM HOME',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 11,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 1,
-                          top: 0,
-                          child: Text(
-                            'EduRegistry',
-                            style: TextStyle(
-                              color: Color(0xFF332DA1),
-                              fontSize: 24,
-                              fontFamily: 'Jost',
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.20,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

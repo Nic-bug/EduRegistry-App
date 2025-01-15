@@ -92,7 +92,7 @@ class AuthenPageAdmin extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF5F0EE),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: const [
                           BoxShadow(
@@ -126,27 +126,41 @@ class AuthenPageAdmin extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          TextField(
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter code',
-                              hintStyle: const TextStyle(
-                                fontFamily: 'Jost',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey,
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.transparent),
+                          // Add box shadow to TextField container
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x19000000),
+                                  blurRadius: 10,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Enter code',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Jost',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF7A7A7A),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Colors.transparent),
+                                ),
                               ),
                             ),
                           ),
@@ -214,4 +228,3 @@ class AuthenPageAdmin extends StatelessWidget {
     );
   }
 }
-
