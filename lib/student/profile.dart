@@ -1,4 +1,6 @@
+import 'package:eduregistryselab/login_choice_page.dart';
 import 'package:flutter/material.dart';
+//import 'login_choice_page.dart'; // Update with the correct path to this file
 import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,8 +28,13 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  // Function to sign out and navigate to LoginChoicePage
   void _signOut(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginChoicePage()),
+      (route) => false,
+    );
   }
 
   @override

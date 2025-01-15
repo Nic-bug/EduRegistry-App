@@ -9,6 +9,8 @@ void main() {
 }
 
 class LoginChoicePage extends StatelessWidget {
+  const LoginChoicePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
