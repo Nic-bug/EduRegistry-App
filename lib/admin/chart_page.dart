@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_page_admin.dart'; // Import your HomePageAdmin file
 
 class ChartPage extends StatelessWidget {
   const ChartPage({super.key});
@@ -101,7 +102,10 @@ class ChartPage extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(Icons.arrow_back, color: Colors.white),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePageAdmin()),
+                  );
                 },
               ),
             ),
