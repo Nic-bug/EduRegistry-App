@@ -1,7 +1,7 @@
 import 'package:eduregistryselab/admin/home_page_admin.dart';
-import 'package:eduregistryselab/superadmin/superadmin.dart'; // Import the HomePageSuperadmin
+import 'package:eduregistryselab/superadmin/superadmin.dart';
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
+import 'package:eduregistryselab/admin/forgot_pass_admin.dart';
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});
@@ -37,7 +37,7 @@ class AdminLoginPageState extends State<AdminLoginPage> {
     if (enteredMatric == superadminUsername && enteredPassword == superadminPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SuperAdminPage()), // Navigate to HomePageSuperadmin
+        MaterialPageRoute(builder: (context) => SuperAdminPage()),
       );
     }
     // Check if staff credentials are correct
@@ -54,8 +54,7 @@ class AdminLoginPageState extends State<AdminLoginPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Incorrect Credentials'),
-            content: const Text(
-                'The matric number or password you entered is incorrect. Please try again.'),
+            content: const Text('The matric number or password you entered is incorrect. Please try again.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -80,173 +79,180 @@ class AdminLoginPageState extends State<AdminLoginPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F5),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 150,
-                    right: 0,
-                    child: Center(
-                      child: Column(
-                        children: const [
-                          Text(
-                            'EduRegistry',
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0), // Padding added for better spacing
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 0,
+                      top: 130, // Adjusted for better vertical spacing
+                      right: 0,
+                      child: Center(
+                        child: Column(
+                          children: const [
+                            Text(
+                              'EduRegistry',
+                              style: TextStyle(
+                                color: Color(0xFF332DA1),
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              'Track. Analyze. Empower.',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 290, // Adjusted for better spacing
+                      child: const Text(
+                        'Matric Number',
+                        style: TextStyle(
+                          color: Color(0xFF545454),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 320, // Adjusted for better spacing
+                      child: Container(
+                        height: 40, // Shortened the height for the white box
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x19000000),
+                              blurRadius: 10,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: TextField(
+                          controller: _matricController,
+                          textAlign: TextAlign.left, // Ensures left alignment
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.all(12),
+                            hintText: 'Enter your matric number',
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 400, // Adjusted for better spacing
+                      child: const Text(
+                        'Password',
+                        style: TextStyle(
+                          color: Color(0xFF545454),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 430, // Adjusted for better spacing
+                      child: Container(
+                        height: 40, // Shortened the height for the white box
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x19000000),
+                              blurRadius: 10,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: TextField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          textAlign: TextAlign.left, // Ensures left alignment
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.all(12),
+                            hintText: 'Enter your password',
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 500, // Adjusted for better spacing
+                      child: SizedBox(
+                        width: double.infinity, // Ensures button takes full width
+                        child: ElevatedButton(
+                          onPressed: _isButtonDisabled ? null : _login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _isButtonDisabled
+                                ? Colors.grey
+                                : const Color(0xFF0961F5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: const Text(
+                            'Sign In',
                             style: TextStyle(
-                              color: Color(0xFF332DA1),
-                              fontSize: 24,
+                              color: Colors.white,
+                              fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Text(
-                            'Track. Analyze. Empower.',
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 550, // Adjusted for better spacing
+                      child: Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ForgotPasswordAdminPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Forgot Password?',
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF0961F5),
+                              fontSize: 14,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 56,
-                    top: 329,
-                    child: const Text(
-                      'Matric Number',
-                      style: TextStyle(
-                        color: Color(0xFF545454),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 365,
-                    child: Container(
-                      width: 330,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x19000000),
-                            blurRadius: 10,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: TextField(
-                        controller: _matricController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(14),
-                          hintText: 'Enter your matric number',
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 56,
-                    top: 427,
-                    child: const Text(
-                      'Password',
-                      style: TextStyle(
-                        color: Color(0xFF545454),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 458,
-                    child: Container(
-                      width: 330,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x19000000),
-                            blurRadius: 10,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(14),
-                          hintText: 'Enter your password',
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    right: 45,
-                    top: 510,
-                    child: Center(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ForgotPasswordAdminPage(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: Color(0xFF0961F5),
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 579,
-                    child: SizedBox(
-                      width: 330,
-                      height: 46,
-                      child: ElevatedButton(
-                        onPressed: _isButtonDisabled ? null : _login,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isButtonDisabled
-                              ? Colors.grey
-                              : const Color(0xFF0961F5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: const Text(
-                          'Sign In',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+import 'package:eduregistryselab/student/forgot_pass_page.dart';
 import 'package:eduregistryselab/home_page_superadmin.dart' as user_home;
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
 
@@ -74,19 +74,21 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F5),
       body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height,
+              height: screenHeight,
               child: Stack(
                 children: [
-                  // App Title
                   Positioned(
                     left: 0,
-                    top: 150,
+                    top: screenHeight * 0.2,
                     right: 0,
                     child: Center(
                       child: Column(
@@ -95,7 +97,7 @@ class LoginPageState extends State<LoginPage> {
                             'EduRegistry',
                             style: TextStyle(
                               color: Color(0xFF332DA1),
-                              fontSize: 24,
+                              fontSize: 28,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -103,7 +105,7 @@ class LoginPageState extends State<LoginPage> {
                             'Track. Analyze. Empower.',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 11,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -111,11 +113,9 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  // Matric Field
                   Positioned(
-                    left: 56,
-                    top: 329,
+                    left: screenWidth * 0.1,
+                    top: screenHeight * 0.35, // Increased top spacing
                     child: const Text(
                       'Matric Number',
                       style: TextStyle(
@@ -126,11 +126,11 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Positioned(
-                    left: 45,
-                    top: 365,
+                    left: screenWidth * 0.1,
+                    top: screenHeight * 0.39, // Increased top spacing
                     child: Container(
-                      width: 330,
-                      height: 46,
+                      width: screenWidth * 0.8,
+                      height: 46, // Maintained original height
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -152,11 +152,9 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  // Password Field
                   Positioned(
-                    left: 56,
-                    top: 427,
+                    left: screenWidth * 0.1,
+                    top: screenHeight * 0.48, // Increased top spacing
                     child: const Text(
                       'Password',
                       style: TextStyle(
@@ -167,11 +165,11 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Positioned(
-                    left: 45,
-                    top: 458,
+                    left: screenWidth * 0.1,
+                    top: screenHeight * 0.52, // Increased top spacing
                     child: Container(
-                      width: 330,
-                      height: 46,
+                      width: screenWidth * 0.8,
+                      height: 46, // Maintained original height
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -194,13 +192,11 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  // Sign In Button
                   Positioned(
-                    left: 45,
-                    top: 579,
+                    left: screenWidth * 0.1,
+                    top: screenHeight * 0.63, // Adjusted button position
                     child: SizedBox(
-                      width: 330,
+                      width: screenWidth * 0.8,
                       height: 46,
                       child: ElevatedButton(
                         onPressed: _isButtonDisabled ? null : _login,
@@ -223,11 +219,9 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  // Forgot Password Button (Moved below password field)
                   Positioned(
                     left: 0,
-                    top: 518, // Position adjusted to appear below the password field
+                    top: screenHeight * 0.69, // Adjusted forgot password position
                     right: 0,
                     child: Center(
                       child: TextButton(
