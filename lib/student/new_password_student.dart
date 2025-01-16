@@ -1,8 +1,5 @@
 import 'package:eduregistryselab/student/login_page.dart';
 import 'package:flutter/material.dart';
-//import 'package:eduregistryselab/admin/home_page_admin.dart'; // Home page after successful password update
-//import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Forgot password page
-//import 'package:eduregistryselab/superadmin/login_page.dart'; // Login page
 
 class NewPassword extends StatefulWidget {
   const NewPassword({super.key});
@@ -30,9 +27,7 @@ class NewPasswordState extends State<NewPassword> {
 
     if (!mounted) return;
 
-    // Check if new password and confirm password match
     if (newPassword == confirmPassword) {
-      // Show a success dialog for password creation
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -43,7 +38,6 @@ class NewPasswordState extends State<NewPassword> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  // Close the success dialog and navigate to the login page
                   Navigator.of(context).pop();
                   Navigator.pushReplacement(
                     context,
@@ -57,7 +51,6 @@ class NewPasswordState extends State<NewPassword> {
         },
       );
     } else {
-      // Show dialog for password mismatch
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -68,7 +61,6 @@ class NewPasswordState extends State<NewPassword> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  // Close dialog and reset fields
                   Navigator.of(context).pop();
                   setState(() {
                     _isButtonDisabled = false;
@@ -87,46 +79,48 @@ class NewPasswordState extends State<NewPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F5),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 150,
-                    right: 0,
-                    child: Center(
-                      child: Column(
-                        children: const [
-                          Text(
-                            'EduRegistry',
-                            style: TextStyle(
-                              color: Color(0xFF332DA1),
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            'Track. Analyze. Empower.',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+        child: SizedBox(
+          height: screenHeight,
+          child: Column(
+            children: [
+              SizedBox(
+                height: screenHeight * 0.3,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'EduRegistry',
+                        style: TextStyle(
+                          color: Color(0xFF332DA1),
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
+                      Text(
+                        'Track. Analyze. Empower.',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
-                  Positioned(
-                    left: 56,
-                    top: 329,
-                    child: const Text(
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
                       'New Password',
                       style: TextStyle(
                         color: Color(0xFF545454),
@@ -134,13 +128,10 @@ class NewPasswordState extends State<NewPassword> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 365,
-                    child: Container(
-                      width: 330,
-                      height: 46,
+                    const SizedBox(height: 10),
+                    Container(
+                      width: double.infinity,
+                      height: screenHeight * 0.06,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -162,11 +153,8 @@ class NewPasswordState extends State<NewPassword> {
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 56,
-                    top: 427,
-                    child: const Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       'Confirm Password',
                       style: TextStyle(
                         color: Color(0xFF545454),
@@ -174,13 +162,10 @@ class NewPasswordState extends State<NewPassword> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 458,
-                    child: Container(
-                      width: 330,
-                      height: 46,
+                    const SizedBox(height: 10),
+                    Container(
+                      width: double.infinity,
+                      height: screenHeight * 0.06,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -202,13 +187,10 @@ class NewPasswordState extends State<NewPassword> {
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 579,
-                    child: SizedBox(
-                      width: 330,
-                      height: 46,
+                    const SizedBox(height: 40),
+                    SizedBox(
+                      width: double.infinity,
+                      height: screenHeight * 0.06,
                       child: ElevatedButton(
                         onPressed: _isButtonDisabled ? null : _updatePassword,
                         style: ElevatedButton.styleFrom(
@@ -229,11 +211,11 @@ class NewPasswordState extends State<NewPassword> {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
