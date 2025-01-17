@@ -1,30 +1,33 @@
 import 'package:eduregistryselab/student/grade_page.dart';
 import 'package:flutter/material.dart';
-import 'chart_page.dart'; // Import the ChartAdminPage
-import 'real_chat.dart'; // Import the ChatAdminPage
-import 'profile_page.dart'; // Import the ProfileAdminPage
-import 'noti_page.dart'; // Import the NotificationAdminPage
-import 'add_merit.dart'; // Import the AddMerit page
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import this package
-
-//import 'grade_page.dart'; // Import the GradePage
+import 'chart_page.dart';
+import 'real_chat.dart';
+import 'profile_page.dart';
+import 'noti_page.dart';
+import 'add_merit.dart';
 
 class HomePageAdmin extends StatefulWidget {
-  final String userDocId; // Add this line
+  final String userDocId;
 
-  // Modify constructor to accept userDocId
   const HomePageAdmin({super.key, required this.userDocId});
 
-  Future<Map<String, dynamic>> _fetchUserData() async {
+  @override
+  State<HomePageAdmin> createState() => _HomePageAdminState();
+}
+
+class _HomePageAdminState extends State<HomePageAdmin> {
+  int _currentIndex = 0;
+
+  Future<String> _fetchUserName() async {
     try {
       final docSnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(userDocId)
+          .doc(widget.userDocId)
           .get();
 
       if (docSnapshot.exists) {
-        return docSnapshot.data()!;
+        return docSnapshot.data()?['name'] ?? 'Teacher'; // Fetch 'name' field
       } else {
         throw Exception("User document not found.");
       }
@@ -33,48 +36,69 @@ class HomePageAdmin extends StatefulWidget {
     }
   }
 
-  @override
-  State<HomePageAdmin> createState() => _HomePageAdminState();
-}
-
-class _HomePageAdminState extends State<HomePageAdmin> {
-  int _currentIndex = 0; // Track the selected index in BottomNavigationBar
-
   // Pages to be displayed in the IndexedStack
-  final List<Widget> _pages = [
-    const HomeContent(), // Home Page content
-    const ChartPage(), // Chart Page
-    const NotiPage(), // Notification Page
-    const RealChat(), // Chat Page
-    const AdminProfilePage(), // Profile Page
-  ];
+  late List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize pages with userDocId passed to relevant ones
+    _pages = [
+      HomeContent(userDocId: widget.userDocId),
+      ChartPage(userDocId: widget.userDocId),
+      NotiPage(userDocId: widget.userDocId),
+      RealChat(userDocId: widget.userDocId),
+      AdminProfilePage(userDocId: widget.userDocId),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEAF3FF), // Light blue background
+      backgroundColor: const Color(0xFFEAF3FF),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        automaticallyImplyLeading: false, // Hides the back button
-        title: const Text(
-          'HI, TEACHER',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        automaticallyImplyLeading: false,
+        title: FutureBuilder<String>(
+          future: _fetchUserName(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Text(
+                'Hi, Teacher',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              );
+            } else if (snapshot.hasError) {
+              return const Text(
+                'Hi, Teacher',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              );
+            } else {
+              return Text(
+                'Hi, ${snapshot.data}',
+                style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.bold),
+              );
+            }
+          },
         ),
       ),
       body: SafeArea(
         child: IndexedStack(
-          index: _currentIndex, // Display the selected page
+          index: _currentIndex,
           children: _pages,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex, // Highlight the selected icon
+        currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
-            _currentIndex = index; // Update the selected index
+            _currentIndex = index;
           });
         },
         items: const [
@@ -105,7 +129,9 @@ class _HomePageAdminState extends State<HomePageAdmin> {
 }
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
+  final String userDocId;
+
+  const HomeContent({super.key, required this.userDocId});
 
   @override
   Widget build(BuildContext context) {
@@ -116,170 +142,47 @@ class HomeContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              "What Would you like to learn Today?",
+              "What would you like to learn today?",
               style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
             const SizedBox(height: 20),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: GestureDetector(
-                onTap: () {
-                  // Navigate to the ChartPage when tapped
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ChartPage()),
-                  );
-                },
-                child: Card(
-                  color: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChartPage(userDocId: userDocId),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Dashboard',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Track Student progress Today.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Navigate to AddMerit page when clicked
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddMerit()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: const BorderSide(color: Colors.blue),
-                      ),
-                    ),
-                    child: const Text(
-                      "ADD MERIT",
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/appointment');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: const BorderSide(color: Colors.blue),
-                      ),
-                    ),
-                    child: const Text(
-                      "APPOINTMENT",
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Ranking",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: Chip(
-                      label: const Text(
-                        "CLASS",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.blue,
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigate to the GradePage when tapped
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const GradePage()),
-                        );
-                      },
-                      child: Chip(
-                        label: const Text("STUDENT"),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
+                );
+              },
               child: Card(
+                color: Colors.blue,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                child: ListTile(
-                  leading: const Text(
-                    "1.",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Dashboard',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Track student progress today.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
-                  title: const Text("5 BIJAK CLASS"),
-                  subtitle: const Text("850/-  |  4.2  |  7830 Std"),
-                  trailing: const Icon(Icons.star, color: Colors.yellow),
                 ),
               ),
             ),

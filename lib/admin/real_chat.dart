@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 // Main Chat Page
 class RealChat extends StatelessWidget {
-  const RealChat({super.key});
+  final String userDocId;
+
+  const RealChat({super.key, required this.userDocId});
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +114,8 @@ class ChatDetailPage extends StatelessWidget {
         elevation: 0,
         title: Text(
           name,
-          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -130,7 +133,8 @@ class ChatDetailPage extends StatelessWidget {
               children: [
                 // Teacher's message
                 ChatBubble(
-                  message: "Hello, Syafiq! I would like to discuss your merit today.",
+                  message:
+                      "Hello, Syafiq! I would like to discuss your merit today.",
                   isTeacher: true,
                 ),
                 // Student's response
@@ -140,17 +144,20 @@ class ChatDetailPage extends StatelessWidget {
                 ),
                 // Teacher's message
                 ChatBubble(
-                  message: "You've been doing well in class, but I need to see more involvement in group activities.",
+                  message:
+                      "You've been doing well in class, but I need to see more involvement in group activities.",
                   isTeacher: true,
                 ),
                 // Student's response
                 ChatBubble(
-                  message: "I understand. I'll work on it and try to contribute more.",
+                  message:
+                      "I understand. I'll work on it and try to contribute more.",
                   isTeacher: false,
                 ),
                 // Teacher's message
                 ChatBubble(
-                  message: "Great! I'll update your merit points soon. Keep up the good work!",
+                  message:
+                      "Great! I'll update your merit points soon. Keep up the good work!",
                   isTeacher: true,
                 ),
               ],

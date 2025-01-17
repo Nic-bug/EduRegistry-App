@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class SuperAdminPage extends StatelessWidget {
   final String userDocId;
 
-  const HomePage({super.key, required this.userDocId});
+  const SuperAdminPage({super.key, required this.userDocId});
 
   @override
   Widget build(BuildContext context) {

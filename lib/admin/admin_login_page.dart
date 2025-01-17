@@ -1,4 +1,5 @@
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
+import 'package:eduregistryselab/superadmin/superadmin.dart' as superadmin_home;
 import 'package:flutter/material.dart';
 import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
 // import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
@@ -35,6 +36,7 @@ class AdminLoginPageState extends State<AdminLoginPage> {
     });
 
     try {
+      // Query Firestore for user credentials
       final QuerySnapshot query = await _firestore
           .collection('users')
           .where('Matric No', isEqualTo: enteredMatric)
@@ -46,23 +48,35 @@ class AdminLoginPageState extends State<AdminLoginPage> {
         final String role = user['Role'] ?? '';
         final String userDocId = query.docs.first.id; // Get document ID
 
-        // Save matric number to SharedPreferences
+        // Save matric number and role to SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('matric', enteredMatric);
         await prefs.setString('role', role);
         await prefs.setString('userDocId', userDocId); // Save document ID
 
+        // Navigate based on the user's role
         if (role == 'Admin') {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => teacher_home.HomePageAdmin(
-                      userDocId: userDocId, // Pass userDocId to HomePage
-                    )),
+              builder: (context) => teacher_home.HomePageAdmin(
+                userDocId: userDocId, // Pass userDocId
+              ),
+            ),
+          );
+        } else if (role == 'Superadmin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => superadmin_home.SuperAdminPage(
+                userDocId: userDocId, // Pass userDocId
+              ),
+            ),
           );
         } else {
           _showErrorDialog(
-              'You are a student. Please login in the student login page.');
+            'You are a student. Please go to student login page.',
+          );
         }
       } else {
         _showErrorDialog('Incorrect matric number or password.');

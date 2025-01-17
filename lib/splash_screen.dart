@@ -44,7 +44,9 @@ class _SplashScreenState extends State<SplashScreen> {
       } else if (role == 'Superadmin') {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => admin_home.SuperAdminPage()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  admin_home.SuperAdminPage(userDocId: userDocId)),
         );
       } else {
         // Navigate to the login choice page

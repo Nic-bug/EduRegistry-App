@@ -1,43 +1,73 @@
-import 'package:eduregistryselab/login_choice_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore package
 import 'package:flutter/material.dart';
-import 'edit_profile_admin.dart';
 //import 'login_choice_page.dart'; // Ensure this import exists
+import 'package:eduregistryselab/login_choice_page.dart'; // Import your admin_login_page.dart here
 
 class AdminProfilePage extends StatefulWidget {
-  const AdminProfilePage({super.key});
+  final String userDocId;
+
+  const AdminProfilePage({super.key, required this.userDocId});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _AdminProfilePageState createState() => _AdminProfilePageState();
 }
 
-class _ProfilePageState extends State<AdminProfilePage> {
-  // Define initial values for the profile fields
-  String name = "Muhammad Afiq";
-  String icNumber = "xxxxxxxxxxxx";
-  String matricNumber = "xxxxxx";
-  String emailAddress = "afiq@example.com";
-  String address = "123 Jalan Amanah, Kuala Lumpur";
-  String subject = "Software Engineering";
-  String password = "********";
+class _AdminProfilePageState extends State<AdminProfilePage> {
+  // Define initial values for profile fields
+  String name = "Loading...";
+  String className = "Loading...";
+  String matricNumber = "Loading...";
+  String icNumber = "Loading...";
+  String phone = "Loading...";
+  String address = "Loading...";
 
-  void _updateProfile(
-    String updatedName,
-    String updatedIcNumber,
-    String updatedMatricNumber,
-    String updatedEmailAddress,
-    String updatedAddress,
-    String updatedSubject,
-    String updatedPassword,
-  ) {
-    setState(() {
-      name = updatedName;
-      icNumber = updatedIcNumber;
-      matricNumber = updatedMatricNumber;
-      emailAddress = updatedEmailAddress;
-      address = updatedAddress;
-      subject = updatedSubject;
-      password = updatedPassword;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _fetchProfileData();
+  }
+
+  Future<void> _fetchProfileData() async {
+    try {
+      // Fetch user data from Firestore
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('Matric No', isEqualTo: widget.userDocId)
+          .limit(1)
+          .get();
+
+      if (docSnapshot.docs.isNotEmpty) {
+        final userData = docSnapshot.docs.first.data();
+        setState(() {
+          name = userData['Name'] ?? "N/A";
+          className = userData['Class'] ?? "N/A";
+          matricNumber = userData['Matric No'] ?? "N/A";
+          icNumber = userData['IC No'] ?? "N/A";
+          phone = userData['Phone'] ?? "N/A";
+          address = userData['Address'] ?? "N/A";
+        });
+      } else {
+        // Handle no matching document
+        setState(() {
+          name = "Not Found";
+          className = "Not Found";
+          matricNumber = "Not Found";
+          icNumber = "Not Found";
+          phone = "Not Found";
+          address = "Not Found";
+        });
+      }
+    } catch (e) {
+      print("Error fetching profile data: $e");
+      setState(() {
+        name = "Error";
+        className = "Error";
+        matricNumber = "Error";
+        icNumber = "Error";
+        phone = "Error";
+        address = "Error";
+      });
+    }
   }
 
   void _signOut(BuildContext context) {
@@ -92,88 +122,23 @@ class _ProfilePageState extends State<AdminProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
-              Stack(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.blue,
-                    child: CircleAvatar(
-                      radius: 48,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 60,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.camera_alt,
-                        size: 16,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ],
+              const CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.blue,
+                child: Icon(
+                  Icons.person,
+                  size: 60,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 20),
               ProfileField(label: "Name", value: name),
-              ProfileField(label: "IC Number", value: icNumber),
+              ProfileField(label: "Class", value: className),
               ProfileField(label: "Matric Number", value: matricNumber),
-              ProfileField(label: "Email Address", value: emailAddress),
+              ProfileField(label: "IC Number", value: icNumber),
+              ProfileField(label: "Phone", value: phone),
               ProfileField(label: "Address", value: address),
-              ProfileField(label: "Subject", value: subject),
-              ProfileField(label: "Password", value: password),
               const Spacer(),
-              ElevatedButton(
-                onPressed: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AdminEditProfilePage(
-                        name: name,
-                        icNumber: icNumber,
-                        matricNumber: matricNumber,
-                        emailAddress: emailAddress,
-                        address: address,
-                        subject: subject,
-                        password: password,
-                      ),
-                    ),
-                  );
-
-                  if (result != null) {
-                    _updateProfile(
-                      result['name'],
-                      result['icNumber'],
-                      result['matricNumber'],
-                      result['emailAddress'],
-                      result['address'],
-                      result['subject'],
-                      result['password'],
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16.0, horizontal: 64.0),
-                ),
-                child: const Text(
-                  "Edit Profile",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ),
-              const SizedBox(height: 20),
             ],
           ),
         ),

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 import 'edit_profile.dart';
 import 'package:eduregistryselab/login_choice_page.dart';
 import 'package:eduregistryselab/student/home_page.dart' as user_home;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String userDocId; // Add this parameter
+  final String userDocId;
 
-  const ProfilePage({super.key, required this.userDocId}); // Modify constructor
+  const ProfilePage({super.key, required this.userDocId});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -23,10 +23,12 @@ class _ProfilePageState extends State<ProfilePage> {
   String phone = "Loading...";
   String address = "Loading...";
 
+  bool isLoading = true; // Add loading indicator state
+
   // Fetch user data from Firestore using userDocId
   Future<void> _fetchUserData() async {
-    String id = widget.userDocId; // Use the userDocId passed to ProfilePage
-    print("Retrieved userDocId: $id"); // Debugging
+    String id = widget.userDocId;
+    print("Retrieved userDocId: $id");
 
     if (id.isNotEmpty) {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -37,24 +39,32 @@ class _ProfilePageState extends State<ProfilePage> {
             await firestore.collection('users').doc(id).get();
 
         if (userDoc.exists) {
+          print("Fetched user document: ${userDoc.data()}"); // Debug print
+
           setState(() {
-            name = userDoc['Name'] ?? "N/A";
-            className = userDoc['Class'] ?? "N/A";
-            matricNo = userDoc['Matric No'] ?? "N/A";
-            icNo = userDoc['IC No'] ?? "N/A";
-            phone = userDoc['No. Phone'] ?? "N/A";
-            address = userDoc['Address'] ?? "N/A";
+            name = userDoc["Name"] ?? "N/A";
+            className = userDoc["Class"] ?? "N/A";
+            matricNo = userDoc["Matric No"] ?? "N/A";
+            icNo = userDoc["IC No"] ?? "N/A";
+            phone = userDoc["NoPhone"] ?? "N/A";
+            address = userDoc["Address"] ?? "N/A";
+            isLoading = false; // Data loaded
           });
         } else {
           print("User document does not exist.");
+          setState(() {
+            isLoading = false; // Stop loading
+          });
         }
       } catch (e) {
         print("Error fetching user data: $e");
+        setState(() {
+          isLoading = false; // Stop loading
+        });
       }
     }
   }
 
-  // Clear session and navigate to login
   Future<void> _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -67,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    _fetchUserData(); // Fetch user data when the page loads
+    _fetchUserData();
   }
 
   @override
@@ -91,8 +101,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      user_home.HomePage(userDocId: widget.userDocId)),
+                builder: (context) =>
+                    user_home.HomePage(userDocId: widget.userDocId),
+              ),
             );
           },
         ),
@@ -100,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: TextButton(
-              onPressed: _logout, // Updated to use _logout function
+              onPressed: _logout,
               child: const Text(
                 "Sign Out",
                 style: TextStyle(
@@ -113,96 +124,86 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Stack(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.blue,
-                    child: CircleAvatar(
-                      radius: 48,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 60,
-                        color: Colors.black54,
+        child: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 20),
+                    // Profile Icon Without Camera Icon
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.blue,
+                      child: CircleAvatar(
+                        radius: 48,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          size: 60,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.camera_alt,
-                        size: 16,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ProfileField(label: "Name", value: name),
-              ProfileField(label: "Class", value: className),
-              ProfileField(label: "Matric No", value: matricNo),
-              ProfileField(label: "IC No", value: icNo),
-              ProfileField(label: "Phone", value: phone),
-              ProfileField(label: "Address", value: address),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () async {
-                  // Navigate to Edit Profile Page and wait for the result
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfilePage(
-                        name: name,
-                        className: className,
-                        matricNo: matricNo,
-                        icNo: icNo,
-                        phone: phone,
-                        address: address,
-                      ),
-                    ),
-                  );
+                    const SizedBox(height: 20),
+                    ProfileField(label: "Name", value: name),
+                    ProfileField(label: "Class", value: className),
+                    ProfileField(label: "Matric No", value: matricNo),
+                    ProfileField(label: "IC No", value: icNo),
+                    ProfileField(label: "Phone", value: phone),
+                    ProfileField(label: "Address", value: address),
+                    const Spacer(),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditProfilePage(
+                              name: name,
+                              className: className,
+                              matricNo: matricNo,
+                              icNo: icNo,
+                              phone: phone,
+                              address: address,
+                              userDocId: widget.userDocId, // FIX HERE
+                            ),
+                          ),
+                        );
 
-                  // If result is not null, update profile with the new values
-                  if (result != null) {
-                    setState(() {
-                      name = result['name'];
-                      className = result['className'];
-                      matricNo = result['matricNo'];
-                      icNo = result['icNo'];
-                      phone = result['phone'];
-                      address = result['address'];
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16.0, horizontal: 64.0),
-                ),
-                child: const Text(
-                  "Edit Profile",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        if (result != null) {
+                          setState(() {
+                            name = result['name'];
+                            className = result['className'];
+                            matricNo = result['matricNo'];
+                            icNo = result['icNo'];
+                            phone = result['phone'];
+                            address = result['address'];
+                          });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 64.0),
+                      ),
+                      child: const Text(
+                        "Edit Profile",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
       ),
     );
   }

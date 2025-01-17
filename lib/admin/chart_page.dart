@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:eduregistryselab/admin/home_page_admin.dart';
 
 class ChartPage extends StatelessWidget {
-  const ChartPage({super.key});
+  final String userDocId;
+
+  const ChartPage({super.key, required this.userDocId});
 
   @override
   Widget build(BuildContext context) {
@@ -137,5 +140,9 @@ class ChartPage extends StatelessWidget {
 }
 
 void main() {
-  runApp(const MaterialApp(home: ChartPage()));
+  runApp(
+    const MaterialApp(
+      home: ChartPage(userDocId: "dummyUserDocId"), // Provide a valid userDocId
+    ),
+  );
 }
