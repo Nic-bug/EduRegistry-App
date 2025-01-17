@@ -56,10 +56,10 @@ class AppointmentPage extends StatelessWidget {
                       name: 'Muhammad Afiq Bin Amran',
                       dateTime: '11/4/2024 8.00 AM',
                       teacherName: 'Kamarul Bin Ishak',
-                      /*buttons: [
+                      buttons: [
                         _buildActionButton('CHANGE', Colors.blue, Colors.white),
                         _buildActionButton('CANCEL', Colors.red, Colors.white),
-                      ],*/
+                      ],
                     ),
                   ],
                   const UpcomingPage()),

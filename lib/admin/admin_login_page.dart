@@ -1,18 +1,7 @@
-<<<<<<< HEAD
 import 'package:eduregistryselab/admin/home_page_admin.dart';
 import 'package:eduregistryselab/superadmin/superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:eduregistryselab/admin/forgot_pass_admin.dart';
-=======
-import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
-import 'package:eduregistryselab/superadmin/superadmin.dart' as superadmin_home;
-import 'package:flutter/material.dart';
-import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
-// import 'package:eduregistryselab/admin/forgot_pass_admin.dart'; // Import the Forgot Password Admin Page
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import this package
->>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});
@@ -25,45 +14,25 @@ class AdminLoginPageState extends State<AdminLoginPage> {
   final TextEditingController _matricController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-<<<<<<< HEAD
   final String adminMatric = '2'; // Staff credentials
   final String staffPassword = '2'; // Staff credentials
   final String superadminUsername = 'admin123'; // Superadmin username
   final String superadminPassword = '123123'; // Superadmin password
 
-=======
->>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
   bool _isButtonDisabled = false;
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _login() async {
     final enteredMatric = _matricController.text.trim();
     final enteredPassword = _passwordController.text.trim();
 
-    if (enteredMatric.isEmpty || enteredPassword.isEmpty) {
-      _showErrorDialog('Fields cannot be empty.');
-      return;
-    }
-
     setState(() {
       _isButtonDisabled = true;
     });
 
-    try {
-      // Query Firestore for user credentials
-      final QuerySnapshot query = await _firestore
-          .collection('users')
-          .where('Matric No', isEqualTo: enteredMatric)
-          .where('Password', isEqualTo: enteredPassword)
-          .get();
+    await Future.delayed(const Duration(seconds: 1));
 
-      if (query.docs.isNotEmpty) {
-        final user = query.docs.first.data() as Map<String, dynamic>;
-        final String role = user['Role'] ?? '';
-        final String userDocId = query.docs.first.id; // Get document ID
+    if (!mounted) return;
 
-<<<<<<< HEAD
     // Check if superadmin credentials are correct
     if (enteredMatric == superadminUsername && enteredPassword == superadminPassword) {
       Navigator.pushReplacement(
@@ -97,70 +66,12 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                   });
                 },
                 child: const Text('OK'),
-=======
-        // Save matric number and role to SharedPreferences
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('matric', enteredMatric);
-        await prefs.setString('role', role);
-        await prefs.setString('userDocId', userDocId); // Save document ID
-
-        // Navigate based on the user's role
-        if (role == 'Admin') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => teacher_home.HomePageAdmin(
-                userDocId: userDocId, // Pass userDocId
->>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
               ),
-            ),
+            ],
           );
-        } else if (role == 'Superadmin') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => superadmin_home.SuperAdminPage(
-                userDocId: userDocId, // Pass userDocId
-              ),
-            ),
-          );
-        } else {
-          _showErrorDialog(
-            'You are a student. Please go to student login page.',
-          );
-        }
-      } else {
-        _showErrorDialog('Incorrect matric number or password.');
-      }
-    } catch (e) {
-      _showErrorDialog('An error occurred: $e');
-    } finally {
-      setState(() {
-        _isButtonDisabled = false;
-      });
+        },
+      );
     }
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Login Error'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _matricController.clear();
-                _passwordController.clear();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -199,7 +110,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-<<<<<<< HEAD
                           ],
                         ),
                       ),
@@ -233,113 +143,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                               offset: Offset(0, 2),
                             ),
                           ],
-=======
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Matric Field
-                  Positioned(
-                    left: 56,
-                    top: 329,
-                    child: const Text(
-                      'Matric Number',
-                      style: TextStyle(
-                        color: Color(0xFF545454),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 365,
-                    child: Container(
-                      width: 330,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x19000000),
-                            blurRadius: 10,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: TextField(
-                        controller: _matricController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(14),
-                          hintText: 'Enter your matric number',
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Password Field
-                  Positioned(
-                    left: 56,
-                    top: 427,
-                    child: const Text(
-                      'Password',
-                      style: TextStyle(
-                        color: Color(0xFF545454),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 45,
-                    top: 458,
-                    child: Container(
-                      width: 330,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x19000000),
-                            blurRadius: 10,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(14),
-                          hintText: 'Enter your password',
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Sign In Button
-                  Positioned(
-                    left: 45,
-                    top: 579,
-                    child: SizedBox(
-                      width: 330,
-                      height: 46,
-                      child: ElevatedButton(
-                        onPressed: _isButtonDisabled ? null : _login,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isButtonDisabled
-                              ? Colors.grey
-                              : const Color(0xFF0961F5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
->>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
                         ),
                         child: TextField(
                           controller: _matricController,
@@ -352,7 +155,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                         ),
                       ),
                     ),
-<<<<<<< HEAD
                     Positioned(
                       left: 0,
                       right: 0,
@@ -391,35 +193,10 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(12),
                             hintText: 'Enter your password',
-=======
-                  ),
-
-                  // Forgot Password Button
-                  Positioned(
-                    left: 0,
-                    top: 635,
-                    right: 0,
-                    child: Center(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ForgotPasswordPage()),
-                          );
-                        },
-                        child: const Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: Color(0xFF0961F5),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
->>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
                           ),
                         ),
                       ),
                     ),
-<<<<<<< HEAD
                     Positioned(
                       left: 0,
                       right: 0,
@@ -473,10 +250,6 @@ class AdminLoginPageState extends State<AdminLoginPage> {
                     ),
                   ],
                 ),
-=======
-                  ),
-                ],
->>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
               ),
             ],
           ),

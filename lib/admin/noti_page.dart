@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NotiPage extends StatelessWidget {
-  final String userDocId;
-
-  const NotiPage({super.key, required this.userDocId});
+  const NotiPage({super.key});
 
   @override
   Widget build(BuildContext context) {

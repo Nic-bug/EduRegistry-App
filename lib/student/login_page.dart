@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+import 'package:eduregistryselab/student/forgot_pass_page.dart';
 import 'package:eduregistryselab/home_page_superadmin.dart' as user_home;
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
-import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,21 +18,12 @@ class LoginPageState extends State<LoginPage> {
   final String correctPassword = '1';
   final String adminMatric = 'admin';
   final String adminPassword = 'admin123';
-  final String superAdminMatric = 'superadmin';
-  final String superAdminPassword = 'superadmin123';
 
   bool _isButtonDisabled = false;
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _login() async {
     final enteredMatric = _matricController.text.trim();
     final enteredPassword = _passwordController.text.trim();
-
-    if (enteredMatric.isEmpty || enteredPassword.isEmpty) {
-      _showErrorDialog('Fields cannot be empty.');
-      return;
-    }
 
     setState(() {
       _isButtonDisabled = true;
@@ -54,12 +44,6 @@ class LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
             builder: (context) => const teacher_home.HomePageAdmin()),
-      );
-    } else if (enteredMatric == superAdminMatric &&
-        enteredPassword == superAdminPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => admin_home.SuperAdminPage()),
       );
     } else {
       showDialog(

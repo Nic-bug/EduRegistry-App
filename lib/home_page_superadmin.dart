@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SuperAdminPage extends StatelessWidget {
-  final String userDocId;
-
-  const SuperAdminPage({super.key, required this.userDocId});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +12,9 @@ class SuperAdminPage extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         automaticallyImplyLeading: false, // Hides the back button
-        title: Text(
-          'Hi, $userDocId', // Use userDocId to personalize the title
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+        title: const Text(
+          'Hi, STUDENT',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
@@ -80,6 +75,7 @@ class SuperAdminPage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        // Navigate to the Merit System Page
                         Navigator.pushNamed(context, '/grade_page');
                       },
                       style: ElevatedButton.styleFrom(
@@ -96,6 +92,7 @@ class SuperAdminPage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        // Navigate to the Appointment Page
                         Navigator.pushNamed(context, '/appointment');
                       },
                       style: ElevatedButton.styleFrom(
@@ -185,16 +182,19 @@ class SuperAdminPage extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
         onTap: (index) {
+          // Handle navigation based on index
           if (index == 0) {
-            Navigator.pushNamed(context, '/main');
+            Navigator.pushNamed(context, '/main'); // Navigate to HomePage
           } else if (index == 1) {
-            Navigator.pushNamed(context, '/grade_page');
+            Navigator.pushNamed(
+                context, '/grade_page'); // Navigate to GradePage
           } else if (index == 2) {
-            Navigator.pushNamed(context, '/notifications');
+            Navigator.pushNamed(
+                context, '/notifications'); // Notifications Page
           } else if (index == 3) {
-            Navigator.pushNamed(context, '/chat');
+            Navigator.pushNamed(context, '/chat'); // Chat Page
           } else if (index == 4) {
-            Navigator.pushNamed(context, '/profile');
+            Navigator.pushNamed(context, '/profile'); // Profile Page
           }
         },
         items: const [

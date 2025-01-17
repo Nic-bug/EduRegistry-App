@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'home_page_admin.dart'; // Import your HomePageAdmin file
-=======
-import 'package:eduregistryselab/admin/home_page_admin.dart';
->>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
 
 class ChartPage extends StatelessWidget {
-  final String userDocId;
-
-  const ChartPage({super.key, required this.userDocId});
+  const ChartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -147,9 +141,5 @@ class ChartPage extends StatelessWidget {
 }
 
 void main() {
-  runApp(
-    const MaterialApp(
-      home: ChartPage(userDocId: "dummyUserDocId"), // Provide a valid userDocId
-    ),
-  );
+  runApp(const MaterialApp(home: ChartPage()));
 }
