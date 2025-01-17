@@ -1,42 +1,77 @@
-import 'package:eduregistryselab/login_choice_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore package
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'edit_profile_admin.dart';
+=======
+//import 'login_choice_page.dart'; // Ensure this import exists
+import 'package:eduregistryselab/login_choice_page.dart'; // Import your admin_login_page.dart here
+>>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
 
 class AdminProfilePage extends StatefulWidget {
-  const AdminProfilePage({super.key});
+  final String userDocId;
+
+  const AdminProfilePage({super.key, required this.userDocId});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _AdminProfilePageState createState() => _AdminProfilePageState();
 }
 
-class _ProfilePageState extends State<AdminProfilePage> {
-  // Define initial values for the profile fields
-  String name = "Muhammad Afiq";
-  String icNumber = "xxxxxxxxxxxx";
-  String matricNumber = "xxxxxx";
-  String emailAddress = "afiq@example.com";
-  String address = "123 Jalan Amanah, Kuala Lumpur";
-  String subject = "Software Engineering";
-  String password = "********";
+class _AdminProfilePageState extends State<AdminProfilePage> {
+  // Define initial values for profile fields
+  String name = "Loading...";
+  String className = "Loading...";
+  String matricNumber = "Loading...";
+  String icNumber = "Loading...";
+  String phone = "Loading...";
+  String address = "Loading...";
 
-  void _updateProfile(
-    String updatedName,
-    String updatedIcNumber,
-    String updatedMatricNumber,
-    String updatedEmailAddress,
-    String updatedAddress,
-    String updatedSubject,
-    String updatedPassword,
-  ) {
-    setState(() {
-      name = updatedName;
-      icNumber = updatedIcNumber;
-      matricNumber = updatedMatricNumber;
-      emailAddress = updatedEmailAddress;
-      address = updatedAddress;
-      subject = updatedSubject;
-      password = updatedPassword;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _fetchProfileData();
+  }
+
+  Future<void> _fetchProfileData() async {
+    try {
+      // Fetch user data from Firestore
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('Matric No', isEqualTo: widget.userDocId)
+          .limit(1)
+          .get();
+
+      if (docSnapshot.docs.isNotEmpty) {
+        final userData = docSnapshot.docs.first.data();
+        setState(() {
+          name = userData['Name'] ?? "N/A";
+          className = userData['Class'] ?? "N/A";
+          matricNumber = userData['Matric No'] ?? "N/A";
+          icNumber = userData['IC No'] ?? "N/A";
+          phone = userData['Phone'] ?? "N/A";
+          address = userData['Address'] ?? "N/A";
+        });
+      } else {
+        // Handle no matching document
+        setState(() {
+          name = "Not Found";
+          className = "Not Found";
+          matricNumber = "Not Found";
+          icNumber = "Not Found";
+          phone = "Not Found";
+          address = "Not Found";
+        });
+      }
+    } catch (e) {
+      print("Error fetching profile data: $e");
+      setState(() {
+        name = "Error";
+        className = "Error";
+        matricNumber = "Error";
+        icNumber = "Error";
+        phone = "Error";
+        address = "Error";
+      });
+    }
   }
 
   void _signOut(BuildContext context) {
@@ -87,6 +122,7 @@ class _ProfilePageState extends State<AdminProfilePage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
+<<<<<<< HEAD
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,6 +212,30 @@ class _ProfilePageState extends State<AdminProfilePage> {
                 const SizedBox(height: 20),
               ],
             ),
+=======
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              const CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.blue,
+                child: Icon(
+                  Icons.person,
+                  size: 60,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ProfileField(label: "Name", value: name),
+              ProfileField(label: "Class", value: className),
+              ProfileField(label: "Matric Number", value: matricNumber),
+              ProfileField(label: "IC Number", value: icNumber),
+              ProfileField(label: "Phone", value: phone),
+              ProfileField(label: "Address", value: address),
+              const Spacer(),
+            ],
+>>>>>>> dc86632d759c27540e257f1d3cb5b53ae821b8ba
           ),
         ),
       ),

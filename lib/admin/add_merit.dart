@@ -1,59 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore package
 
 class AddMerit extends StatefulWidget {
   const AddMerit({super.key});
 
   @override
-  _AddMarksPageState createState() => _AddMarksPageState();
+  _AddMeritState createState() => _AddMeritState();
 }
 
-class _AddMarksPageState extends State<AddMerit> {
-  // To keep track of whether the teacher wants to add marks to a student or class
-  String _selectedOption = 'Student'; // Default is student
-  String _selectedSubject = 'Mathematics'; // Default subject
+class _AddMeritState extends State<AddMerit> {
   final TextEditingController _matricController = TextEditingController();
-  final TextEditingController _marksController = TextEditingController();
-  final TextEditingController _classController = TextEditingController();
+  final TextEditingController _reviewController = TextEditingController();
 
-  final List<String> _subjects = [
-    'Mathematics',
-    'Science',
-    'English',
-    'History',
-    'Geography',
-    'Art',
-    'Physical Education',
-  ]; // List of subjects for dropdown
+  final Map<String, int> _goodDeeds = {
+    'Clean the desk': 1,
+    'Help a friend': 2,
+    'Submit homework on time': 3,
+    'Participate in class': 2,
+    'Volunteer for tasks': 5,
+    'Organize study group': 4,
+    'Help teacher': 3,
+    'Recycle waste': 1,
+    'Show kindness': 2,
+    'Maintain class decorum': 3
+  }; // Good deeds and merit values
 
-  // Function to handle form submission
-  void _submitMarks() {
-    String matricNumber = _matricController.text;
-    String marks = _marksController.text;
-    String className = _classController.text;
-    String subject = _selectedSubject;
+  String? _selectedDeed;
 
-    if (_selectedOption == 'Student' && matricNumber.isNotEmpty && marks.isNotEmpty) {
-      // Add logic to save student marks (For example, save to database)
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Marks added for Student (Matric: $matricNumber) in $subject'),
-      ));
-    } else if (_selectedOption == 'Class' && className.isNotEmpty && marks.isNotEmpty) {
-      // Add logic to save class marks (For example, save to database)
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Marks added for Class: $className'),
-      ));
-    } else {
-      // Show error if fields are empty
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please fill all fields.'),
-      ));
+  void _submitMerit() async {
+    String matricNumber = _matricController.text.trim();
+    String reviewComments = _reviewController.text.trim();
+    int meritValue = _goodDeeds[_selectedDeed] ?? 0;
+
+    if (matricNumber.isEmpty || _selectedDeed == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all required fields.')),
+      );
+      return;
+    }
+
+    try {
+      // Reference to Firestore
+      final firestore = FirebaseFirestore.instance;
+
+      // Check if Matric No exists in 'users' collection
+      final userDoc =
+          await firestore.collection('users').doc(matricNumber).get();
+
+      if (userDoc.exists) {
+        // Update TotalMerit in the 'users' collection
+        int currentMerit = userDoc.data()?['TotalMerit'] ?? 0;
+        await firestore.collection('users').doc(matricNumber).update({
+          'TotalMerit': currentMerit + meritValue,
+        });
+
+        // Add entry to the 'merit' collection
+        await firestore.collection('merit').add({
+          'MatricNo': matricNumber,
+          'MeritValue': meritValue,
+          'ReviewComments': reviewComments,
+          'Timestamp': FieldValue.serverTimestamp(),
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                  'Merit added successfully for Matric No: $matricNumber')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                  'Matric No: $matricNumber not found in users collection.')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEAF3FF), // Light blue background
+      backgroundColor: const Color(0xFFEAF3FF),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -71,111 +102,52 @@ class _AddMarksPageState extends State<AddMerit> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Dropdown or toggle to choose between adding marks for class or student
             const Text(
-              'Choose the option to add merit:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              'Matric Number:',
+              style: TextStyle(fontSize: 16),
+            ),
+            TextField(
+              controller: _matricController,
+              decoration: const InputDecoration(
+                hintText: 'Enter Student Matric Number',
+              ),
             ),
             const SizedBox(height: 10),
+            const Text(
+              'Good Deed:',
+              style: TextStyle(fontSize: 16),
+            ),
             DropdownButton<String>(
-              value: _selectedOption,
+              value: _selectedDeed,
+              hint: const Text('Select a good deed'),
               onChanged: (String? newValue) {
                 setState(() {
-                  _selectedOption = newValue!;
+                  _selectedDeed = newValue;
                 });
               },
-              items: <String>['Student', 'Class']
-                  .map<DropdownMenuItem<String>>((String value) {
+              items:
+                  _goodDeeds.keys.map<DropdownMenuItem<String>>((String deed) {
                 return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
+                  value: deed,
+                  child: Text(deed),
                 );
               }).toList(),
             ),
+            const SizedBox(height: 10),
+            const Text(
+              'Review Comments:',
+              style: TextStyle(fontSize: 16),
+            ),
+            TextField(
+              controller: _reviewController,
+              decoration: const InputDecoration(
+                hintText: 'Write your review here',
+              ),
+            ),
             const SizedBox(height: 20),
-
-            // Conditional form input for student or class based on selected option
-            _selectedOption == 'Student'
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Matric Number:',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextField(
-                        controller: _matricController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Student Matric Number',
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Select Subject:',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      DropdownButton<String>(
-                        value: _selectedSubject,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedSubject = newValue!;
-                          });
-                        },
-                        items: _subjects
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Marks:',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextField(
-                        controller: _marksController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Marks',
-                        ),
-                      ),
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Class Name:',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextField(
-                        controller: _classController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Class Name',
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Marks:',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextField(
-                        controller: _marksController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Marks for Class',
-                        ),
-                      ),
-                    ],
-                  ),
-            const SizedBox(height: 20),
-
-            // Submit Button
             Center(
               child: ElevatedButton(
-                onPressed: _submitMarks,
+                onPressed: _submitMerit,
                 child: const Text('Submit Merit'),
               ),
             ),

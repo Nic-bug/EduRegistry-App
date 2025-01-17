@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduregistryselab/student/student_details_page.dart';
 
 class GradePage extends StatelessWidget {
@@ -11,7 +12,8 @@ class GradePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
+        automaticallyImplyLeading: false, // Remove back arrow
         title: const Text(
           'Ranking Merit',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -24,70 +26,93 @@ class GradePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Tab bar with locations
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Chip(
-                      label: const Text(
-                        'MALAYSIA',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.green,
+                // Centered tab bar with school name
+                Center(
+                  child: Chip(
+                    label: const Text(
+                      'SK Bukit Tembakau',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    const Text(
-                      'Sk Samarahan',
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
-                    ),
-                  ],
+                    backgroundColor: Colors.green,
+                  ),
                 ),
                 const SizedBox(height: 20),
-                // Ranking List
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 8, // Number of items
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        // Navigate to the student details page with the selected student's data
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => StudentDetailsPage(
-                              name: _getStudentName(index),
-                              score: _getMeritScore(index),
-                              description: "Student from SK Kampung Padang",
+
+                // Ranking List fetched from Firestore
+                FutureBuilder<QuerySnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection('users')
+                      .where('Role', isEqualTo: 'Student')
+                      .orderBy('TotalMerit', descending: true)
+                      .limit(15)
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'No students found.',
+                          style: TextStyle(fontSize: 16, color: Colors.black54),
+                        ),
+                      );
+                    }
+
+                    final students = snapshot.data!.docs;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: students.length,
+                      itemBuilder: (context, index) {
+                        final student = students[index];
+                        final name = student['Name'] ?? 'Unknown';
+                        final totalMerit =
+                            student['TotalMerit']?.toString() ?? '0';
+
+                        return GestureDetector(
+                          onTap: () {
+                            // Navigate to the student details page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StudentDetailsPage(
+                                  name: name,
+                                  score: totalMerit,
+                                  description: "Student from SK Bukit Tembakau",
+                                ),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            margin: const EdgeInsets.only(bottom: 10.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.blue.shade100,
+                                child: const Icon(Icons.person,
+                                    color: Colors.blue),
+                              ),
+                              title: Text(
+                                "${index + 1}. $name",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              trailing: Text(
+                                totalMerit,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
                             ),
                           ),
                         );
                       },
-                      child: Card(
-                        margin: const EdgeInsets.only(bottom: 10.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.blue.shade100,
-                            child: const Icon(Icons.person, color: Colors.blue),
-                          ),
-                          title: Text(
-                            "${index + 1}. ${_getStudentName(index)}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: const Text('SK Kampung Padang'),
-                          trailing: Text(
-                            _getMeritScore(index),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
                     );
                   },
                 ),
@@ -98,7 +123,7 @@ class GradePage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        currentIndex: 0,
+        currentIndex: 1, // Highlight Grade page
         onTap: (index) {
           // Handle navigation based on index
           if (index == 0) {
@@ -139,26 +164,5 @@ class GradePage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // Dummy data for student names
-  String _getStudentName(int index) {
-    const names = [
-      "Muhammad Amir bin Abdullah",
-      "Aisha binti Rahman",
-      "Wei Ling Tan",
-      "Parvathi Subramaniam",
-      "Ahmad Iskandar bin Razak",
-      "Nurul Izzah binti Hassan",
-      "AKMAL",
-      "AKMAL"
-    ];
-    return names[index];
-  }
-
-  // Dummy data for merit scores
-  String _getMeritScore(int index) {
-    const scores = ["120", "119", "119", "117", "116", "115", "113", "111"];
-    return scores[index];
   }
 }

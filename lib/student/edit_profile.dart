@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String name;
   final String className;
   final String matricNo;
   final String icNo;
+  final String phone;
+  final String address;
+  final String userDocId; // New parameter for Firestore document ID
 
   const EditProfilePage({
     super.key,
@@ -12,6 +16,9 @@ class EditProfilePage extends StatefulWidget {
     required this.className,
     required this.matricNo,
     required this.icNo,
+    required this.phone,
+    required this.address,
+    required this.userDocId,
   });
 
   @override
@@ -23,6 +30,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController classController;
   late TextEditingController matricNoController;
   late TextEditingController icNoController;
+  late TextEditingController phoneNoController;
+  late TextEditingController addressController;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -31,19 +41,51 @@ class _EditProfilePageState extends State<EditProfilePage> {
     classController = TextEditingController(text: widget.className);
     matricNoController = TextEditingController(text: widget.matricNo);
     icNoController = TextEditingController(text: widget.icNo);
+    phoneNoController = TextEditingController(text: widget.phone);
+    addressController = TextEditingController(text: widget.address);
+
+    _fetchProfileData(); // Fetch Firestore data
   }
 
-  void _saveProfile() {
-    // Get updated profile data
+  void _fetchProfileData() async {
+    try {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(widget.userDocId).get();
+
+      if (userDoc.exists && userDoc['matricNo'] == widget.matricNo) {
+        setState(() {
+          nameController.text = userDoc['name'];
+          classController.text = userDoc['className'];
+          matricNoController.text = userDoc['matricNo'];
+          icNoController.text = userDoc['icNo'];
+          phoneNoController.text = userDoc['phone'];
+          addressController.text = userDoc['address'];
+        });
+      }
+    } catch (e) {
+      print("Error fetching profile data: $e");
+    }
+  }
+
+  void _saveProfile() async {
     final updatedData = {
       'name': nameController.text,
       'className': classController.text,
       'matricNo': matricNoController.text,
       'icNo': icNoController.text,
+      'phone': phoneNoController.text,
+      'address': addressController.text,
     };
 
-    // Return the updated data to ProfilePage
-    Navigator.pop(context, updatedData);
+    try {
+      await _firestore
+          .collection('users')
+          .doc(widget.userDocId)
+          .update(updatedData);
+      Navigator.pop(context, updatedData);
+    } catch (e) {
+      print("Error updating profile: $e");
+    }
   }
 
   @override
@@ -82,6 +124,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   controller: matricNoController, label: "Matric No"),
               const SizedBox(height: 10),
               _buildTextField(controller: icNoController, label: "IC No"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: phoneNoController, label: "Phone No"),
+              const SizedBox(height: 10),
+              _buildTextField(controller: addressController, label: "Address"),
               const Spacer(),
               ElevatedButton(
                 onPressed: _saveProfile,

@@ -1,41 +1,108 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TeacherPage extends StatefulWidget {
+  final String userDocId;
+
+  const TeacherPage({super.key, required this.userDocId});
+
   @override
   _TeacherPageState createState() => _TeacherPageState();
 }
 
 class _TeacherPageState extends State<TeacherPage> {
-  final List<Map<String, String>> _teachers = []; // List to store teacher data
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _idController = TextEditingController();
-  final TextEditingController _subjectController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _icNoController = TextEditingController();
+  final TextEditingController _matricNoController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  // Function to add a teacher
-  void _addTeacher() {
+  // Function to check for duplicate Matric No
+  Future<bool> _isMatricNoDuplicate(String matricNo) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('Matric No', isEqualTo: matricNo)
+          .get();
+
+      return querySnapshot.docs.isNotEmpty; // True if a duplicate exists
+    } catch (e) {
+      print('Error checking Matric No: $e');
+      return false;
+    }
+  }
+
+  // Function to add a teacher to Firestore
+  Future<void> _addTeacher() async {
     final String name = _nameController.text.trim();
-    final String id = _idController.text.trim();
-    final String subject = _subjectController.text.trim();
+    final String address = _addressController.text.trim();
+    final String email = _emailController.text.trim();
+    final String icNo = _icNoController.text.trim();
+    final String matricNo = _matricNoController.text.trim();
+    final String phone = _phoneController.text.trim();
+    final String password = _passwordController.text.trim();
 
-    if (name.isEmpty || id.isEmpty || subject.isEmpty) {
+    // Validate input fields
+    if (name.isEmpty ||
+        address.isEmpty ||
+        email.isEmpty ||
+        icNo.isEmpty ||
+        matricNo.isEmpty ||
+        phone.isEmpty ||
+        password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please fill all fields!')),
       );
       return;
     }
 
-    setState(() {
-      _teachers.add({'name': name, 'id': id, 'subject': subject});
-    });
+    // Check for duplicate Matric No
+    if (await _isMatricNoDuplicate(matricNo)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Matric No "$matricNo" is not available')),
+      );
+      return;
+    }
 
-    // Clear the input fields
-    _nameController.clear();
-    _idController.clear();
-    _subjectController.clear();
+    // Prepare teacher data
+    final String role = 'Admin'; // Auto-set Role
+    final String school = 'SK Bukit Tembakau'; // Auto-set School
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Teacher added successfully!')),
-    );
+    try {
+      await FirebaseFirestore.instance.collection('users').add({
+        'Name': name,
+        'Class': null, // Teachers don't have a class
+        'Address': address,
+        'Email': email,
+        'IC No': icNo,
+        'Matric No': matricNo,
+        'No. Phone': phone,
+        'Password': password,
+        'Role': role,
+        'School': school,
+        'Subjects': [], // Empty array initially
+        'TotalMerit': null, // Teachers don't use TotalMerit
+      });
+
+      // Clear the input fields
+      _nameController.clear();
+      _addressController.clear();
+      _emailController.clear();
+      _icNoController.clear();
+      _matricNoController.clear();
+      _phoneController.clear();
+      _passwordController.clear();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Teacher added successfully!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to add teacher: $e')),
+      );
+    }
   }
 
   @override
@@ -46,89 +113,80 @@ class _TeacherPageState extends State<TeacherPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title
-            Text(
-              'Add New Teacher',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-
-            // Input Fields
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Teacher Name',
-                border: OutlineInputBorder(),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Add New Teacher',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-            SizedBox(height: 8),
-            TextField(
-              controller: _idController,
-              decoration: InputDecoration(
-                labelText: 'Teacher ID',
-                border: OutlineInputBorder(),
+              SizedBox(height: 16),
+
+              // Input Fields
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: 'Teacher Name',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            TextField(
-              controller: _subjectController,
-              decoration: InputDecoration(
-                labelText: 'Subject',
-                border: OutlineInputBorder(),
+              SizedBox(height: 8),
+              TextField(
+                controller: _addressController,
+                decoration: InputDecoration(
+                  labelText: 'Address',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            SizedBox(height: 16),
+              SizedBox(height: 8),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: _icNoController,
+                decoration: InputDecoration(
+                  labelText: 'IC No',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: _matricNoController,
+                decoration: InputDecoration(
+                  labelText: 'Matric No',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: _phoneController,
+                decoration: InputDecoration(
+                  labelText: 'No. Phone',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 16),
 
-            // Add Teacher Button
-            ElevatedButton(
-              onPressed: _addTeacher,
-              child: Text('Add Teacher'),
-            ),
-            SizedBox(height: 24),
-
-            // Teacher List Title
-            Text(
-              'Teacher List',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-
-            // Display List of Teachers
-            Expanded(
-              child: _teachers.isEmpty
-                  ? Center(child: Text('No teachers added yet.'))
-                  : ListView.builder(
-                      itemCount: _teachers.length,
-                      itemBuilder: (context, index) {
-                        final teacher = _teachers[index];
-                        return Card(
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              child: Text(teacher['name']![0]), // First letter
-                            ),
-                            title: Text(teacher['name']!),
-                            subtitle: Text(
-                                'ID: ${teacher['id']} | Subject: ${teacher['subject']}'),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                setState(() {
-                                  _teachers.removeAt(index);
-                                });
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Teacher removed!')),
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: _addTeacher,
+                child: Text('Add Teacher'),
+              ),
+            ],
+          ),
         ),
       ),
     );
