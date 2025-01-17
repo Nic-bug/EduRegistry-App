@@ -5,6 +5,11 @@ class EditProfilePage extends StatefulWidget {
   final String className;
   final String matricNo;
   final String icNo;
+<<<<<<< HEAD
+=======
+  final String phone;
+  final String address;
+>>>>>>> parent of dc86632 (Latest Changes)
 
   const EditProfilePage({
     super.key,
@@ -12,6 +17,11 @@ class EditProfilePage extends StatefulWidget {
     required this.className,
     required this.matricNo,
     required this.icNo,
+<<<<<<< HEAD
+=======
+    required this.phone,
+    required this.address,
+>>>>>>> parent of dc86632 (Latest Changes)
   });
 
   @override
@@ -23,6 +33,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController classController;
   late TextEditingController matricNoController;
   late TextEditingController icNoController;
+<<<<<<< HEAD
+=======
+  late TextEditingController phoneNoController;
+  late TextEditingController addressController;
+>>>>>>> parent of dc86632 (Latest Changes)
 
   @override
   void initState() {
@@ -31,6 +46,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     classController = TextEditingController(text: widget.className);
     matricNoController = TextEditingController(text: widget.matricNo);
     icNoController = TextEditingController(text: widget.icNo);
+<<<<<<< HEAD
+=======
+    phoneNoController = TextEditingController(text: widget.phone);
+    addressController = TextEditingController(text: widget.address);
+>>>>>>> parent of dc86632 (Latest Changes)
   }
 
   void _saveProfile() {

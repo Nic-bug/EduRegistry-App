@@ -8,6 +8,12 @@ import 'package:eduregistryselab/student/forgot_pass_page.dart';
 import 'package:eduregistryselab/student/chat.dart';
 import 'package:eduregistryselab/student/profile.dart';
 import 'package:eduregistryselab/student/appointment.dart'; // Import AppointmentPage
+<<<<<<< HEAD
+=======
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+>>>>>>> parent of dc86632 (Latest Changes)
 
 void main() {
   runApp(const MyApp());

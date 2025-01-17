@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import 'package:eduregistryselab/admin/home_page_admin.dart';
 import 'package:eduregistryselab/superadmin/superadmin.dart';
+=======
+import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
+>>>>>>> parent of dc86632 (Latest Changes)
 import 'package:flutter/material.dart';
 import 'package:eduregistryselab/admin/forgot_pass_admin.dart';
 
@@ -29,10 +33,20 @@ class AdminLoginPageState extends State<AdminLoginPage> {
       _isButtonDisabled = true;
     });
 
+<<<<<<< HEAD
     await Future.delayed(const Duration(seconds: 1));
+=======
+    try {
+      final QuerySnapshot query = await _firestore
+          .collection('users')
+          .where('Matric No', isEqualTo: enteredMatric)
+          .where('Password', isEqualTo: enteredPassword)
+          .get();
+>>>>>>> parent of dc86632 (Latest Changes)
 
     if (!mounted) return;
 
+<<<<<<< HEAD
     // Check if superadmin credentials are correct
     if (enteredMatric == superadminUsername && enteredPassword == superadminPassword) {
       Navigator.pushReplacement(
@@ -71,6 +85,35 @@ class AdminLoginPageState extends State<AdminLoginPage> {
           );
         },
       );
+=======
+        // Save matric number to SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('matric', enteredMatric);
+        await prefs.setString('role', role);
+        await prefs.setString('userDocId', userDocId); // Save document ID
+
+        if (role == 'Admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => teacher_home.HomePageAdmin(
+                      userDocId: userDocId, // Pass userDocId to HomePage
+                    )),
+          );
+        } else {
+          _showErrorDialog(
+              'You are a student. Please login in the student login page.');
+        }
+      } else {
+        _showErrorDialog('Incorrect matric number or password.');
+      }
+    } catch (e) {
+      _showErrorDialog('An error occurred: $e');
+    } finally {
+      setState(() {
+        _isButtonDisabled = false;
+      });
+>>>>>>> parent of dc86632 (Latest Changes)
     }
   }
 

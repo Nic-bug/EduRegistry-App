@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:eduregistryselab/login_choice_page.dart';
 import 'package:flutter/material.dart';
 //import 'login_choice_page.dart'; // Update with the correct path to this file
@@ -5,6 +6,19 @@ import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+=======
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'edit_profile.dart';
+import 'package:eduregistryselab/login_choice_page.dart';
+import 'package:eduregistryselab/student/home_page.dart' as user_home;
+
+class ProfilePage extends StatefulWidget {
+  final String userDocId; // Add this parameter
+
+  const ProfilePage({super.key, required this.userDocId}); // Modify constructor
+>>>>>>> parent of dc86632 (Latest Changes)
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -17,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String matricNo = "xxxxxx";
   String icNo = "xxxxxxxxxxxx";
 
+<<<<<<< HEAD
   // Function to update the profile with new values
   void _updateProfile(String updatedName, String updatedClass,
       String updatedMatricNo, String updatedIcNo) {
@@ -31,6 +46,44 @@ class _ProfilePageState extends State<ProfilePage> {
   // Function to sign out and navigate to LoginChoicePage
   void _signOut(BuildContext context) {
     Navigator.pushAndRemoveUntil(
+=======
+  // Fetch user data from Firestore using userDocId
+  Future<void> _fetchUserData() async {
+    String id = widget.userDocId; // Use the userDocId passed to ProfilePage
+    print("Retrieved userDocId: $id"); // Debugging
+
+    if (id.isNotEmpty) {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      try {
+        // Fetch user document from Firestore using userDocId
+        DocumentSnapshot userDoc =
+            await firestore.collection('users').doc(id).get();
+
+        if (userDoc.exists) {
+          setState(() {
+            name = userDoc['Name'] ?? "N/A";
+            className = userDoc['Class'] ?? "N/A";
+            matricNo = userDoc['Matric No'] ?? "N/A";
+            icNo = userDoc['IC No'] ?? "N/A";
+            phone = userDoc['No. Phone'] ?? "N/A";
+            address = userDoc['Address'] ?? "N/A";
+          });
+        } else {
+          print("User document does not exist.");
+        }
+      } catch (e) {
+        print("Error fetching user data: $e");
+      }
+    }
+  }
+
+  // Clear session and navigate to login
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pushReplacement(
+>>>>>>> parent of dc86632 (Latest Changes)
       context,
       MaterialPageRoute(builder: (context) => const LoginChoicePage()),
       (route) => false,
@@ -38,6 +91,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
+<<<<<<< HEAD
+=======
+  void initState() {
+    super.initState();
+    _fetchUserData(); // Fetch user data when the page loads
+  }
+
+  @override
+>>>>>>> parent of dc86632 (Latest Changes)
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEAF3FF),
@@ -55,14 +117,27 @@ class _ProfilePageState extends State<ProfilePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
+<<<<<<< HEAD
             Navigator.pop(context);
+=======
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      user_home.HomePage(userDocId: widget.userDocId)),
+            );
+>>>>>>> parent of dc86632 (Latest Changes)
           },
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: TextButton(
+<<<<<<< HEAD
               onPressed: () => _signOut(context),
+=======
+              onPressed: _logout, // Updated to use _logout function
+>>>>>>> parent of dc86632 (Latest Changes)
               child: const Text(
                 "Sign Out",
                 style: TextStyle(
@@ -116,6 +191,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ProfileField(label: "Class", value: className),
               ProfileField(label: "Matric No", value: matricNo),
               ProfileField(label: "IC No", value: icNo),
+<<<<<<< HEAD
+=======
+              ProfileField(label: "Phone", value: phone),
+              ProfileField(label: "Address", value: address),
+>>>>>>> parent of dc86632 (Latest Changes)
               const Spacer(),
               ElevatedButton(
                 onPressed: () async {
@@ -128,14 +208,30 @@ class _ProfilePageState extends State<ProfilePage> {
                         className: className,
                         matricNo: matricNo,
                         icNo: icNo,
+<<<<<<< HEAD
+=======
+                        phone: phone,
+                        address: address,
+>>>>>>> parent of dc86632 (Latest Changes)
                       ),
                     ),
                   );
 
                   // If result is not null, update profile with the new values
                   if (result != null) {
+<<<<<<< HEAD
                     _updateProfile(result['name'], result['className'],
                         result['matricNo'], result['icNo']);
+=======
+                    setState(() {
+                      name = result['name'];
+                      className = result['className'];
+                      matricNo = result['matricNo'];
+                      icNo = result['icNo'];
+                      phone = result['phone'];
+                      address = result['address'];
+                    });
+>>>>>>> parent of dc86632 (Latest Changes)
                   }
                 },
                 style: ElevatedButton.styleFrom(

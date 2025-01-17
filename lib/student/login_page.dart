@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:eduregistryselab/student/forgot_pass_page.dart';
 import 'package:eduregistryselab/home_page_superadmin.dart' as user_home;
 import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
+=======
+import 'package:eduregistryselab/student/forgot_pass_page.dart'; // Import the ForgotPasswordPage
+import 'package:eduregistryselab/home_page_superadmin.dart'
+    as user_home; // Example for student home page
+import 'package:eduregistryselab/admin/home_page_admin.dart' as teacher_home;
+import 'package:eduregistryselab/superadmin/superadmin.dart' as admin_home;
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import this package
+>>>>>>> parent of dc86632 (Latest Changes)
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

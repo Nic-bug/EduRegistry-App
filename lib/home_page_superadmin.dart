@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+<<<<<<< HEAD
   const HomePage({super.key});
+=======
+  final String userDocId;
+
+  const HomePage({super.key, required this.userDocId});
+>>>>>>> parent of dc86632 (Latest Changes)
 
   @override
   Widget build(BuildContext context) {
